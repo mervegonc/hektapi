@@ -6,23 +6,22 @@ import lombok.*;
 import java.util.UUID;
 
 @Entity
-@Table(name = "product_attachment")
+@Table(name = "product_attributes")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductAttachment {
+public class ProductAttribute {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
-    
-    private String fileUrl;
-    private String fileType; // "image" veya "video"
 
-    public void setProduct(Product product) {
-        this.product = product;
-    }
+  
+    private String key;  
+    @Column(length = 500)
+    private String value; // Özellik değeri
 }

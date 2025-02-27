@@ -1,8 +1,8 @@
 package com.project.hektapi.entity;
 
+import jakarta.persistence.*;
 import lombok.*;
 
-import jakarta.persistence.*;
 import java.util.*;
 
 @Entity
@@ -14,13 +14,21 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+    
     private String name;
+    @Column(length = 1500)
     private String information;
     private String code;
-    private Integer categoryId;
+  
+    @ManyToOne
+@JoinColumn(name = "category_id", columnDefinition = "UUID", nullable = false)
+private Category category;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<ProductAttributeKey> attributes;
+
+@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+private List<ProductAttribute> attributes;
+
+
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ProductAttachment> attachments;

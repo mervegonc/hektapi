@@ -4,13 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+import java.util.UUID;
+
 @Data
-@AllArgsConstructor // Tüm parametreleri alan bir constructor oluşturur
-@NoArgsConstructor  // Parametresiz constructor oluşturur
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProductRequest {
-    private String productName;
-    private String description;
-    private String category;
-    private Double price;
-    private Integer stock;
+    private String name;
+    private String information;
+    private String code;
+    private UUID categoryId;  // ✅ UUID tipi doğru!
+    private List<ProductAttributeRequest> attributes;
 }
