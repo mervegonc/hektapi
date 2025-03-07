@@ -115,11 +115,12 @@ public ResponseEntity<ProductDetailResponse> getProductById(@PathVariable UUID  
 
 
     @PreAuthorize("hasRole('ROLE_ADMIN')") 
-    @DeleteMapping("/{productId}/delete-completely")
-    public ResponseEntity<String> deleteProductCompletely(@PathVariable UUID productId) {
-        productService.deleteProductCompletely(productId);
-        return ResponseEntity.ok("Ürün ve tüm ilişkili veriler başarıyla silindi.");
-    }
+@DeleteMapping("/{productId}/delete-completely")
+public ResponseEntity<String> deleteProductCompletely(@PathVariable UUID productId) {
+    productService.deleteProductCompletely(productId);
+    return ResponseEntity.ok("Ürün ve tüm ilişkili veriler başarıyla silindi.");
+}
+
 
 
 
@@ -131,5 +132,19 @@ public ResponseEntity<ProductDetailResponse> getProductById(@PathVariable UUID  
         productService.deleteProductAttribute(productId, attributeId);
         return ResponseEntity.ok("Özellik başarıyla silindi!");
     }
+
+
+    // package com.project.hektapi.controller;
+
+@DeleteMapping("/{productId}/attributes/delete-by-key-value")
+public ResponseEntity<String> deleteProductAttributeByKeyValue(
+        @PathVariable UUID productId,
+        @RequestParam String key,
+        @RequestParam String value
+) {
+    productService.deleteProductAttributeByKeyValue(productId, key, value);
+    return ResponseEntity.ok("Belirtilen key-value özelliği başarıyla silindi!");
+}
+
     
 }

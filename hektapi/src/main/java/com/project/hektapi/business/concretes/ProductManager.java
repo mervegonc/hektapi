@@ -347,5 +347,21 @@ private String saveFile(MultipartFile file, String folderPath) {
         // 🗑️ Özelliği sil
         productAttributeRepository.delete(attribute);
     }
+
+    @Transactional
+@Override
+public void deleteProductAttributeByKeyValue(UUID productId, String key, String value) {
+    // 1) Ürün var mı kontrol et
+    Product product = productRepository.findById(productId)
+            .orElseThrow(() -> new RuntimeException("Ürün bulunamadı!"));
+
+    // 2) İlgili key-value çifti var mı?
+    ProductAttribute attribute = productAttributeRepository
+            .findByProductIdAndKeyAndValue(productId, key, value)
+            .orElseThrow(() -> new RuntimeException("Bu key-value çifti ürün üzerinde bulunamadı!"));
+
+    // 3) Silme işlemi
+    productAttributeRepository.delete(attribute);
+}
     
 }

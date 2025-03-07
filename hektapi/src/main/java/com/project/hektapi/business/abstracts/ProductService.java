@@ -26,4 +26,6 @@ ProductResponse updateProduct(UUID productId, ProductUpdateRequest updateRequest
  void addMultipleProductImages(UUID productId, List<MultipartFile> files);
  void deleteProductCompletely(UUID productId);
  void deleteProductAttribute(UUID productId, UUID attributeId);
+ void deleteProductAttributeByKeyValue(UUID productId, String key, String value);
+
 }
