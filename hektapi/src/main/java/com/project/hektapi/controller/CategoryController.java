@@ -18,48 +18,34 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
+    // Kategori ekleme
     @PostMapping("/add")
     public ResponseEntity<CategoryResponse> addCategory(@RequestBody CategoryRequest categoryRequest) {
         return ResponseEntity.ok(categoryService.addCategory(categoryRequest));
     }
-    
-    @PostMapping("/add-direct")
-    public ResponseEntity<CategoryResponse> addCategoryDirect(@RequestBody Category category) {
-        return ResponseEntity.ok(categoryService.addCategory(new CategoryRequest(category.getName())));
-    }
-    
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Category> getCategoryById(@PathVariable UUID id) {
-        return ResponseEntity.ok(categoryService.getCategoryById(id));
-    }
-
-
-
-    /**
-     * Tüm kategorileri getirir
-     */
+    // Tüm kategorileri çekme
     @GetMapping("/all")
     public ResponseEntity<List<CategoryResponse>> getAllCategories() {
         return ResponseEntity.ok(categoryService.getAllCategories());
     }
 
+    // Kategori güncelleme
     @PutMapping("/update/{id}")
-    public ResponseEntity<Category> updateCategory(@PathVariable UUID id, @RequestBody Category category) {
-        return ResponseEntity.ok(categoryService.updateCategory(id, category));
+    public ResponseEntity<CategoryResponse> updateCategory(@PathVariable UUID id, @RequestBody CategoryRequest categoryRequest) {
+        return ResponseEntity.ok(categoryService.updateCategory(id, categoryRequest));
     }
 
+    // Kategori silme
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteCategory(@PathVariable UUID id) {
         categoryService.deleteCategory(id);
         return ResponseEntity.ok("Kategori başarıyla silindi.");
     }
 
-
+    // Arama
     @GetMapping("/search")
-    public List<Category> searchCategories(@RequestParam String keyword) {
-        return categoryService.searchCategories(keyword);
+    public ResponseEntity<List<CategoryResponse>> searchCategories(@RequestParam String keyword) {
+        return ResponseEntity.ok(categoryService.searchByName(keyword));
     }
-    
-
 }

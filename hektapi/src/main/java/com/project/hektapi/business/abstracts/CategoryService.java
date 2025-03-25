@@ -6,16 +6,11 @@ import java.util.UUID;
 import com.project.hektapi.dto.category.*;
 
 public interface CategoryService {
-
-
     CategoryResponse addCategory(CategoryRequest categoryRequest);
     List<CategoryResponse> getAllCategories();
-    Category addCategory(Category category);
-   
-    Category updateCategory(UUID id, Category category);
+    CategoryResponse updateCategory(UUID id, CategoryRequest categoryRequest);
     void deleteCategory(UUID id);
     Category getCategoryById(UUID id);
-
-    List<Category> searchCategories(String keyword);
-    
+    List<CategoryResponse> searchByName(String keyword);
 }
+

@@ -18,45 +18,41 @@ public class CategoryManager implements CategoryService {
 
     private final CategoryRepository categoryRepository;
 
-
- @Override
+    @Override
     public CategoryResponse addCategory(CategoryRequest categoryRequest) {
         Category category = new Category();
         category.setName(categoryRequest.getName());
-
         category = categoryRepository.save(category);
-        return new CategoryResponse(category.getId(), category.getName());
+
+        return new CategoryResponse(
+            category.getId(),
+            category.getName(),
+            category.getProducts() != null ? category.getProducts().size() : 0
+        );
     }
 
     @Override
     public List<CategoryResponse> getAllCategories() {
         return categoryRepository.findAll().stream()
-                .map(category -> new CategoryResponse(category.getId(), category.getName()))
-                .collect(Collectors.toList());
-    }
-
-
-
-
-
-    @Override
-    public Category addCategory(Category category) {
-        return categoryRepository.save(category);
+            .map(cat -> new CategoryResponse(
+                cat.getId(),
+                cat.getName(),
+                cat.getProducts() != null ? cat.getProducts().size() : 0
+            ))
+            .collect(Collectors.toList());
     }
 
     @Override
-    public Category getCategoryById(UUID id) {
-        return categoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Kategori bulunamadı!"));
-    }
+    public CategoryResponse updateCategory(UUID id, CategoryRequest categoryRequest) {
+        Category existing = getCategoryById(id);
+        existing.setName(categoryRequest.getName());
+        Category updated = categoryRepository.save(existing);
 
-
-
-    @Override
-    public Category updateCategory(UUID id, Category category) {
-        Category existingCategory = getCategoryById(id);
-        existingCategory.setName(category.getName());
-        return categoryRepository.save(existingCategory);
+        return new CategoryResponse(
+            updated.getId(),
+            updated.getName(),
+            updated.getProducts() != null ? updated.getProducts().size() : 0
+        );
     }
 
     @Override
@@ -65,8 +61,19 @@ public class CategoryManager implements CategoryService {
     }
 
     @Override
-    public List<Category> searchCategories(String keyword) {
-        return categoryRepository.findByNameContainingIgnoreCase(keyword);
+    public Category getCategoryById(UUID id) {
+        return categoryRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Kategori bulunamadı!"));
     }
 
+    @Override
+    public List<CategoryResponse> searchByName(String keyword) {
+        return categoryRepository.findByNameContainingIgnoreCase(keyword).stream()
+            .map(cat -> new CategoryResponse(
+                cat.getId(),
+                cat.getName(),
+                cat.getProducts() != null ? cat.getProducts().size() : 0
+            ))
+            .collect(Collectors.toList());
+    }
 }
