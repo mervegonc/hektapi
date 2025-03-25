@@ -54,4 +54,12 @@ public class CategoryController {
         categoryService.deleteCategory(id);
         return ResponseEntity.ok("Kategori başarıyla silindi.");
     }
+
+
+    @GetMapping("/search")
+    public List<Category> searchCategories(@RequestParam String keyword) {
+        return categoryService.searchCategories(keyword);
+    }
+    
+
 }

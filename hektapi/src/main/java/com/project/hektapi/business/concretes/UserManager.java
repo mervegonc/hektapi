@@ -52,7 +52,12 @@ import com.project.hektapi.entity.Role;
             this.userDetailRepository =userDetailRepository;
             
         }
-
+        @Override
+        public User getUserByUsernameOrEmail(String usernameOrEmail) {
+            return userRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)
+                    .orElseThrow(() -> new RuntimeException("Kullanıcı bulunamadı"));
+        }
+        
 
 
         @Override

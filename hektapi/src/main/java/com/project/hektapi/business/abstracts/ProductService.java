@@ -6,6 +6,7 @@ import com.project.hektapi.dto.product.ProductList;
 import com.project.hektapi.dto.product.ProductRequest;
 import com.project.hektapi.dto.product.ProductResponse;
 import com.project.hektapi.dto.product.ProductUpdateRequest;
+import com.project.hektapi.entity.Product;
 
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
@@ -27,5 +28,5 @@ ProductResponse updateProduct(UUID productId, ProductUpdateRequest updateRequest
  void deleteProductCompletely(UUID productId);
  void deleteProductAttribute(UUID productId, UUID attributeId);
  void deleteProductAttributeByKeyValue(UUID productId, String key, String value);
-
+ List<Product> searchProducts(String keyword);
 }

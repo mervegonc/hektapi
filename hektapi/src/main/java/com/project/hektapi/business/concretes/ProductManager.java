@@ -363,5 +363,8 @@ public void deleteProductAttributeByKeyValue(UUID productId, String key, String 
     // 3) Silme işlemi
     productAttributeRepository.delete(attribute);
 }
-    
+@Override
+public List<Product> searchProducts(String keyword) {
+    return productRepository.searchByNameOrCode(keyword);
+}
 }

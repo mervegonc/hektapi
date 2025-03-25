@@ -63,4 +63,10 @@ public class CategoryManager implements CategoryService {
     public void deleteCategory(UUID id) {
         categoryRepository.deleteById(id);
     }
+
+    @Override
+    public List<Category> searchCategories(String keyword) {
+        return categoryRepository.findByNameContainingIgnoreCase(keyword);
+    }
+
 }

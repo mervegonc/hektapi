@@ -15,4 +15,7 @@ public interface CategoryService {
     Category updateCategory(UUID id, Category category);
     void deleteCategory(UUID id);
     Category getCategoryById(UUID id);
+
+    List<Category> searchCategories(String keyword);
+    
 }

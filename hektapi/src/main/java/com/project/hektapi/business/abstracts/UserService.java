@@ -7,6 +7,7 @@ import com.project.hektapi.dto.auth.request.UserSigninRequest;
 import com.project.hektapi.dto.auth.request.UserSignupRequest;
 import com.project.hektapi.dto.request.UserDetailUpdateRequest;
 import com.project.hektapi.dto.response.UserDetailResponse;
+import com.project.hektapi.entity.User;
 import com.project.hektapi.entity.UserDetail;
 
 public interface UserService {
@@ -14,6 +15,7 @@ public interface UserService {
 
 
 
+    User getUserByUsernameOrEmail(String usernameOrEmail);
 
 
     void createUserDetails(UserDetailUpdateRequest request);

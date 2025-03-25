@@ -9,6 +9,7 @@ import com.project.hektapi.dto.product.ProductList;
 import com.project.hektapi.dto.product.ProductRequest;
 import com.project.hektapi.dto.product.ProductResponse;
 import com.project.hektapi.dto.product.ProductUpdateRequest;
+import com.project.hektapi.entity.Product;
 import com.project.hektapi.entity.ProductAttachment;
 
 import lombok.RequiredArgsConstructor;
@@ -146,5 +147,9 @@ public ResponseEntity<String> deleteProductAttributeByKeyValue(
     return ResponseEntity.ok("Belirtilen key-value özelliği başarıyla silindi!");
 }
 
+@GetMapping("/search")
+public List<Product> searchProducts(@RequestParam String keyword) {
+    return productService.searchProducts(keyword);
+}
     
 }

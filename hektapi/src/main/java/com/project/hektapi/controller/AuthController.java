@@ -1,6 +1,8 @@
 package com.project.hektapi.controller;
 
+import java.util.List;
 import java.util.UUID;
+import com.project.hektapi.entity.User;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,7 @@ import com.project.hektapi.dto.auth.request.UserSigninRequest;
 import com.project.hektapi.dto.auth.request.UserSignupRequest;
 import com.project.hektapi.dto.auth.response.UserSigninResponse;
 import com.project.hektapi.dto.auth.response.UserSignupResponse;
+import com.project.hektapi.entity.User;
 import com.project.hektapi.business.abstracts.UserService;
 
 import lombok.AllArgsConstructor;
@@ -29,13 +32,25 @@ public class AuthController {
 	@PostMapping("/signin")
 	public ResponseEntity<UserSigninResponse> login(@RequestBody UserSigninRequest userSigninRequest) {
 		String token = userService.login(userSigninRequest);
-		System.out.println(userSigninRequest.getPassword());
 		UUID userId = userService.getUserIdByUsername(userSigninRequest.getUsernameOrEmail());
-		UserSigninResponse userSigninResponse = new UserSigninResponse();
-		userSigninResponse.setToken(token);
-		userSigninResponse.setUserId(userId);
-		return new ResponseEntity<>(userSigninResponse, HttpStatus.OK);
+	
+		// 🔥 Burada kullanıcıyı al ve rollerini hazırla
+		User user = userService.getUserByUsernameOrEmail(userSigninRequest.getUsernameOrEmail());
+		List<String> roleList = user.getRoles().stream()
+    .map(role -> role.getName()) // 👈 eğer String ise .name() gerekmez
+    .toList();
+
+	
+		// ✨ Response'a roller ekleniyor
+		UserSigninResponse response = new UserSigninResponse();
+		response.setToken(token);
+		response.setUserId(userId);
+		response.setRoles(roleList);
+		response.setMessage("Giriş başarılı");
+	
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
+	
 
 	@PostMapping("/signup")
 	public ResponseEntity<UserSignupResponse> signup(@RequestBody UserSignupRequest userSignupRequest) {
