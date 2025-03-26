@@ -367,4 +367,15 @@ public void deleteProductAttributeByKeyValue(UUID productId, String key, String 
 public List<Product> searchProducts(String keyword) {
     return productRepository.searchByNameOrCode(keyword);
 }
+
+@Override
+public List<ProductList> getProductsByCategory(UUID categoryId) {
+    return productRepository.findByCategoryId(categoryId).stream()
+            .map(product -> {
+                List<ProductAttachment> attachments = productAttachmentRepository.findByProductId(product.getId());
+                String firstImageUrl = attachments.isEmpty() ? null : attachments.get(0).getFileUrl();
+                return new ProductList(product, firstImageUrl);
+            }).collect(Collectors.toList());
+}
+
 }

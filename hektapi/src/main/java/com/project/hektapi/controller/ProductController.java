@@ -151,5 +151,9 @@ public ResponseEntity<String> deleteProductAttributeByKeyValue(
 public List<Product> searchProducts(@RequestParam String keyword) {
     return productService.searchProducts(keyword);
 }
-    
+@GetMapping("/category/{categoryId}")
+public ResponseEntity<List<ProductList>> getProductsByCategory(@PathVariable UUID categoryId) {
+    return ResponseEntity.ok(productService.getProductsByCategory(categoryId));
+}
+  
 }

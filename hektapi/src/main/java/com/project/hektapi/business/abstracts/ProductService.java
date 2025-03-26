@@ -29,4 +29,6 @@ ProductResponse updateProduct(UUID productId, ProductUpdateRequest updateRequest
  void deleteProductAttribute(UUID productId, UUID attributeId);
  void deleteProductAttributeByKeyValue(UUID productId, String key, String value);
  List<Product> searchProducts(String keyword);
+ List<ProductList> getProductsByCategory(UUID categoryId);
+
 }

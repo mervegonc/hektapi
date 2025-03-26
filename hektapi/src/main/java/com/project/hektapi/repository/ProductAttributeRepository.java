@@ -1,5 +1,6 @@
 package com.project.hektapi.repository;
 
+import com.project.hektapi.entity.Product;
 import com.project.hektapi.entity.ProductAttachment;
 import com.project.hektapi.entity.ProductAttribute;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,5 +13,6 @@ public interface ProductAttributeRepository extends JpaRepository<ProductAttribu
     Optional<ProductAttribute> findByProductIdAndKey(UUID productId, String key);
     void deleteByProductId(UUID productId);
     Optional<ProductAttribute> findByProductIdAndKeyAndValue(UUID productId, String key, String value);
+  
 }
      

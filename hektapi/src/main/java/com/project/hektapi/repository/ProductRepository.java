@@ -17,4 +17,5 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
     void deleteById(UUID productId);
     @Query("SELECT p FROM Product p WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :keyword, '%')) OR LOWER(p.code) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     List<Product> searchByNameOrCode(String keyword);
+    List<Product> findByCategoryId(UUID categoryId);
 }
