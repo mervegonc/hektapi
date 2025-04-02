@@ -54,7 +54,7 @@ public class SpringSecurityConfig {
                 authorize.requestMatchers("/api/auth/**").permitAll();
                 authorize.requestMatchers("/api/products/add").permitAll();
                 authorize.requestMatchers(HttpMethod.GET, "/api/**").permitAll();
-                authorize.requestMatchers(HttpMethod.POST, "/api/email/send").permitAll();
+                authorize.requestMatchers(HttpMethod.POST, "/api/email/**").permitAll();
                 authorize.requestMatchers(HttpMethod.POST, "/api/**").permitAll();
                 authorize.requestMatchers(HttpMethod.POST, "/api/**").permitAll();
                 authorize.requestMatchers(HttpMethod.PUT, "/api/**").permitAll();
@@ -73,15 +73,17 @@ public class SpringSecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList(
-                "http://localhost:3000", 
-                "https://hektapi.com.tr")); // ✅ İzin verilen domainler açıkça yazıldı
+        
+        // Explicitly specify allowed origins, remove wildcard usage
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "https://hektapi.com.tr")); 
+        
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
-        configuration.setAllowCredentials(true);
-
+        configuration.setAllowCredentials(true);  // Allow credentials (cookies, etc.)
+    
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+    
 }
