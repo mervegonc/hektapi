@@ -1,14 +1,14 @@
 package com.project.hektapi.entity;
+
 import java.sql.Timestamp;
 import java.util.Set;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 import jakarta.persistence.*;
+import lombok.*;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Data
 @Entity
@@ -16,9 +16,11 @@ import jakarta.persistence.*;
 @AllArgsConstructor
 @Table(name = "users")
 public class User {
-    
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
     @Column(unique = true, nullable = false)
@@ -31,7 +33,7 @@ public class User {
     private String password;
 
     @Column(nullable = false)
-    private String status = "ACTIVE";  
+    private String status = "ACTIVE";
 
     @Column(name = "created_time")
     private Timestamp createdTime;
@@ -39,14 +41,20 @@ public class User {
     @Column(name = "updated_time")
     private Timestamp updatedTime;
 
-    // Relationship to UserRole
-   @JsonIgnore
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-	private Set<Role> roles;
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private Set<Role> roles;
 
     @PrePersist
-protected void onCreate() {
-    createdTime = new Timestamp(System.currentTimeMillis());
-}
+    protected void onCreate() {
+        createdTime = new Timestamp(System.currentTimeMillis());
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedTime = new Timestamp(System.currentTimeMillis());
+    }
 }

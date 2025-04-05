@@ -20,8 +20,10 @@ public class ProductAttribute {
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
-  
-    private String key;  
-    @Column(length = 500)
+    @Column(name = "attribute_key", nullable = false)
+    private String key;
+
+    @Column(name = "attribute_value", length = 500)
     private String value; // Özellik değeri
 }
+

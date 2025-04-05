@@ -1,6 +1,5 @@
 package com.project.hektapi.entity;
 
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
@@ -10,6 +9,8 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import org.hibernate.annotations.GenericGenerator;
+
 @Data
 @Entity
 @NoArgsConstructor
@@ -17,17 +18,15 @@ import java.util.UUID;
 @Table(name = "user_details")
 public class UserDetail {
 
-  
     @Id
-@GeneratedValue(strategy = GenerationType.AUTO)
+@GeneratedValue
+@Column(name = "id", updatable = false, nullable = false, columnDefinition = "CHAR(36)")
 private UUID id;
 
 
     @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private User user;
-    
-
 
     @Column(name = "education", length = 255)
     private String education;
@@ -42,7 +41,7 @@ private UUID id;
     private String phoneNumber;
 
     @Column(name = "date_of_birth")
-    private LocalDate  dateOfBirth;
+    private LocalDate dateOfBirth;
 
     @Column(name = "nationality", length = 50)
     private String nationality;
@@ -64,14 +63,12 @@ private UUID id;
 
     @Column(name = "created_time", updatable = false)
     private Timestamp createdTime;
-    
+
     @Column(name = "updated_time")
     private Timestamp updatedTime;
 
+    @PrePersist
     protected void onCreate() {
-        if (id == null) {
-            id = UUID.randomUUID();
-        }
         this.createdTime = new Timestamp(System.currentTimeMillis());
     }
 
@@ -80,4 +77,3 @@ private UUID id;
         this.updatedTime = new Timestamp(System.currentTimeMillis());
     }
 }
-

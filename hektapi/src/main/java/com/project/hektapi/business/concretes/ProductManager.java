@@ -145,7 +145,6 @@ public class ProductManager implements ProductService {
                 attributes
         );
     }
-
     @Transactional
     @Override
     public ProductResponse updateProduct(UUID productId, ProductUpdateRequest updateRequest) {
@@ -157,22 +156,23 @@ public class ProductManager implements ProductService {
         if (updateRequest.getInformation() != null) product.setInformation(updateRequest.getInformation());
         if (updateRequest.getCode() != null) product.setCode(updateRequest.getCode());
     
-        // ✅ **Mevcut özellikleri güncelle, yeni ekleme YAPMA**
+        // ✅ Kategori güncelle
+        if (updateRequest.getCategoryId() != null) {
+            Category category = categoryRepository.findById(updateRequest.getCategoryId())
+                    .orElseThrow(() -> new RuntimeException("Kategori bulunamadı!"));
+            product.setCategory(category);
+        }
+    
+        // ✅ Özellik güncelleme
         if (updateRequest.getAttributes() != null) {
             for (ProductUpdateRequest.AttributeDTO attrDTO : updateRequest.getAttributes()) {
                 if (attrDTO.getId() != null) {
-                    // **Eğer ID varsa, sadece güncelleme yap**
                     ProductAttribute existingAttribute = productAttributeRepository.findById(attrDTO.getId())
                             .orElseThrow(() -> new RuntimeException("Özellik bulunamadı!"));
-    
-                    System.out.println("🔄 Güncellenecek Özellik: " + existingAttribute.getKey() + " - " + existingAttribute.getValue());
-                    System.out.println("🆕 Yeni Değer: " + attrDTO.getKey() + " - " + attrDTO.getValue());
     
                     existingAttribute.setKey(attrDTO.getKey());
                     existingAttribute.setValue(attrDTO.getValue());
                     productAttributeRepository.save(existingAttribute);
-                } else {
-                    System.out.println("⚠️ ID olmayan özellik güncellenmiyor!");
                 }
             }
         }
@@ -184,7 +184,9 @@ public class ProductManager implements ProductService {
                 product.getName(),
                 product.getCode(),
                 product.getCategory().getName(),
-                null, null);
+                null,
+                null
+        );
     }
     
     

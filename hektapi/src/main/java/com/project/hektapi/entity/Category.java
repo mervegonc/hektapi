@@ -6,6 +6,7 @@ import lombok.*;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "categories")
 @Data
@@ -17,8 +18,10 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     
+    @Column(nullable = false, unique = true)
     private String name;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Product> products;
 }
