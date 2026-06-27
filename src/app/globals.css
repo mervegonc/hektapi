@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+:root {
+  --navy-950: #060f24;
+  --navy-900: #0a1b3d;
+  --navy-800: #102a5e;
+  --navy-700: #16356f;
+  --accent: #f5a623;
+  --accent-dark: #d6890a;
+}
+
+@theme inline {
+  --color-navy-950: var(--navy-950);
+  --color-navy-900: var(--navy-900);
+  --color-navy-800: var(--navy-800);
+  --color-navy-700: var(--navy-700);
+  --color-accent: var(--accent);
+  --color-accent-dark: var(--accent-dark);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: #ffffff;
+  color: #1a1a1a;
+}
