@@ -17,6 +17,7 @@ export default function GirisPage() {
     const supabase = createClient();
     const { error: err } = await supabase.auth.signInWithPassword({ email, password });
     if (err) { setError("Email veya şifre hatalı."); setLoading(false); return; }
+    await new Promise(resolve => setTimeout(resolve, 500));
     router.push("/admin");
   }
 
