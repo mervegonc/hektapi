@@ -74,7 +74,12 @@ export default function UrunDetayPage() {
             </p>
           )}
           <h1 className="text-2xl font-bold text-navy-950 sm:text-3xl">{product.name}</h1>
-          {product.description && <p className="mt-4 text-sm leading-relaxed text-zinc-600">{product.description}</p>}
+          {product.description && (
+  <div
+    className="mt-4 prose prose-sm max-w-none text-zinc-600"
+    dangerouslySetInnerHTML={{ __html: product.description }}
+  />
+)}
 
           <div className="mt-6">
             <QuoteButton productName={product.name} />
