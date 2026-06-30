@@ -25,7 +25,7 @@ export default function UrunDetayPage() {
           .then(({ data: prodData }) => {
             if (!prodData) { setLoading(false); return; }
             setProduct(prodData);
-            supabase.from("products").select("*").eq("category_id", catData.id)
+            supabase.from("products").select("*").contains("category_ids", [catData.id])
               .eq("is_active", true).neq("id", prodData.id).limit(4)
               .then(({ data }) => { setRelated(data || []); setLoading(false); });
           });
@@ -75,11 +75,11 @@ export default function UrunDetayPage() {
           )}
           <h1 className="text-2xl font-bold text-navy-950 sm:text-3xl">{product.name}</h1>
           {product.description && (
-  <div
-    className="mt-4 prose prose-sm max-w-none text-zinc-600"
-    dangerouslySetInnerHTML={{ __html: product.description }}
-  />
-)}
+            <div
+              className="mt-4 prose prose-sm max-w-none text-zinc-600"
+              dangerouslySetInnerHTML={{ __html: product.description }}
+            />
+          )}
 
           <div className="mt-6">
             <QuoteButton productName={product.name} />

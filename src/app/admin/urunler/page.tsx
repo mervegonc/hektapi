@@ -14,7 +14,7 @@ export default function AdminUrunlerPage() {
   async function load() {
     const sb = createClient();
     const [{ data: p }, { data: c }] = await Promise.all([
-      sb.from("products").select("*, category:categories(name)").order("created_at", { ascending: false }),
+      sb.from("products").select("*").order("created_at", { ascending: false }),
       sb.from("categories").select("*").order("order"),
     ]);
     setProducts(p || []);
@@ -29,8 +29,15 @@ export default function AdminUrunlerPage() {
     load();
   }
 
+  function categoryNames(ids: string[] = []) {
+    return ids
+      .map(id => categories.find(c => c.id === id)?.name)
+      .filter(Boolean)
+      .join(", ") || "-";
+  }
+
   const filtered = products.filter(p =>
-    (filterCat ? p.category_id === filterCat : true) &&
+    (filterCat ? p.category_ids?.includes(filterCat) : true) &&
     (search ? p.name.toLowerCase().includes(search.toLowerCase()) : true)
   );
 
@@ -59,7 +66,7 @@ export default function AdminUrunlerPage() {
           <thead className="bg-zinc-50 border-b border-zinc-200">
             <tr>
               <th className="px-4 py-3 text-left font-semibold text-zinc-600">Ürün</th>
-              <th className="px-4 py-3 text-left font-semibold text-zinc-600">Kategori</th>
+              <th className="px-4 py-3 text-left font-semibold text-zinc-600">Kategoriler</th>
               <th className="px-4 py-3 text-left font-semibold text-zinc-600">Durum</th>
               <th className="px-4 py-3 text-right font-semibold text-zinc-600">İşlemler</th>
             </tr>
@@ -75,7 +82,7 @@ export default function AdminUrunlerPage() {
                     <span className="font-medium text-navy-950">{p.name}</span>
                   </div>
                 </td>
-                <td className="px-4 py-3 text-zinc-500">{(p.category as unknown as Category)?.name || "-"}</td>
+                <td className="px-4 py-3 text-zinc-500">{categoryNames(p.category_ids)}</td>
                 <td className="px-4 py-3">
                   <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
                     p.is_active ? "bg-green-100 text-green-800" : "bg-zinc-100 text-zinc-600"

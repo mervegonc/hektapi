@@ -18,7 +18,7 @@ export default function KategoriPage() {
       .then(({ data: catData }) => {
         if (!catData) { setLoading(false); return; }
         setCat(catData);
-        supabase.from("products").select("*").eq("category_id", catData.id).eq("is_active", true).order("created_at")
+        supabase.from("products").select("*").contains("category_ids", [catData.id]).eq("is_active", true).order("created_at")
           .then(({ data }) => { setProducts(data || []); setLoading(false); });
       });
   }, [kategori]);

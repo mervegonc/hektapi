@@ -17,8 +17,7 @@ export interface Product {
   id: string;
   name: string;
   slug: string;
-  category_id: string;
-  category?: Category;
+  category_ids: string[];
   short_description: string | null;
   description: string | null;
   standards: string | null;

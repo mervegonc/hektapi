@@ -29,7 +29,7 @@ export default function ProductForm({ product }: Props) {
   // Form alanları
   const [name, setName] = useState(product?.name || "");
   const [slug, setSlug] = useState(product?.slug || "");
-  const [categoryId, setCategoryId] = useState(product?.category_id || "");
+  const [categoryIds, setCategoryIds] = useState<string[]>(product?.category_ids || []);
   const [shortDesc, setShortDesc] = useState(product?.short_description || "");
   const [desc, setDesc] = useState(product?.description || "");
   const [standards, setStandards] = useState(product?.standards || "");
@@ -55,6 +55,12 @@ export default function ProductForm({ product }: Props) {
   useEffect(() => {
     if (!product) setSlug(slugify(name));
   }, [name, product]);
+
+  function toggleCategory(id: string) {
+    setCategoryIds(prev =>
+      prev.includes(id) ? prev.filter(c => c !== id) : [...prev, id]
+    );
+  }
 
   async function uploadImage(file: File, bucket: string): Promise<string> {
     const supabase = createClient();
@@ -89,13 +95,17 @@ export default function ProductForm({ product }: Props) {
   }
 
   async function handleSave() {
-    if (!name || !categoryId || !slug) { setError("İsim, kategori ve slug zorunludur."); return; }
+    if (!name || categoryIds.length === 0 || !slug) {
+      setError("İsim, en az bir kategori ve slug zorunludur.");
+      return;
+    }
     setSaving(true);
     setError("");
     const supabase = createClient();
 
     const payload = {
-      name, slug, category_id: categoryId,
+      name, slug,
+      category_ids: categoryIds,
       short_description: shortDesc || null,
       description: desc || null,
       standards: standards || null,
@@ -140,21 +150,29 @@ export default function ProductForm({ product }: Props) {
             <input value={name} onChange={e => setName(e.target.value)}
               className="w-full rounded-lg border border-zinc-300 px-3 py-2.5 text-sm focus:border-navy-700 focus:outline-none" />
           </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-zinc-700 mb-1">Slug (URL) *</label>
-              <input value={slug} onChange={e => setSlug(e.target.value)}
-                className="w-full rounded-lg border border-zinc-300 px-3 py-2.5 text-sm font-mono focus:border-navy-700 focus:outline-none" />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-zinc-700 mb-1">Kategori *</label>
-              <select value={categoryId} onChange={e => setCategoryId(e.target.value)}
-                className="w-full rounded-lg border border-zinc-300 px-3 py-2.5 text-sm focus:border-navy-700 focus:outline-none">
-                <option value="">Seçin...</option>
-                {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-              </select>
+          <div>
+            <label className="block text-sm font-medium text-zinc-700 mb-1">Slug (URL) *</label>
+            <input value={slug} onChange={e => setSlug(e.target.value)}
+              className="w-full rounded-lg border border-zinc-300 px-3 py-2.5 text-sm font-mono focus:border-navy-700 focus:outline-none" />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-zinc-700 mb-2">Kategoriler * (birden fazla seçebilirsiniz)</label>
+            <div className="grid grid-cols-2 gap-2 rounded-lg border border-zinc-300 p-3 sm:grid-cols-3">
+              {categories.map(c => (
+                <label key={c.id} className="flex items-center gap-2 text-sm cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={categoryIds.includes(c.id)}
+                    onChange={() => toggleCategory(c.id)}
+                    className="h-4 w-4 rounded border-zinc-300 text-navy-700"
+                  />
+                  <span className="text-zinc-700">{c.name}</span>
+                </label>
+              ))}
             </div>
           </div>
+
           <div>
             <label className="block text-sm font-medium text-zinc-700 mb-1">Standartlar</label>
             <input value={standards} onChange={e => setStandards(e.target.value)} placeholder="TS EN 12390-3; ASTM C39..."
