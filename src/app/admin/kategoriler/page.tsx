@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
 import type { Category } from "@/types";
@@ -15,6 +15,8 @@ export default function AdminKategorilerPage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [editing, setEditing] = useState<Partial<Category> | null>(null);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
 
   async function load() {
     const { data } = await createClient().from("categories").select("*").order("order");
@@ -22,6 +24,24 @@ export default function AdminKategorilerPage() {
   }
 
   useEffect(() => { load(); }, []);
+
+  async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file || !editing) return;
+    setUploading(true);
+    try {
+      const supabase = createClient();
+      const ext = file.name.split(".").pop();
+      const path = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+      const { error } = await supabase.storage.from("categories").upload(path, file, { upsert: true });
+      if (error) throw error;
+      const { data } = supabase.storage.from("categories").getPublicUrl(path);
+      setEditing(v => ({ ...v!, image_url: data.publicUrl }));
+    } catch {
+      alert("Görsel yüklenemedi.");
+    }
+    setUploading(false);
+  }
 
   async function handleSave() {
     if (!editing?.name) return;
@@ -64,6 +84,24 @@ export default function AdminKategorilerPage() {
       {editing && (
         <div className="mb-6 rounded-xl bg-white border border-zinc-200 p-6">
           <h2 className="mb-4 font-bold text-navy-950">{editing.id ? "Kategori Düzenle" : "Yeni Kategori"}</h2>
+
+          {/* Kapak görseli */}
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-zinc-700 mb-2">Kapak Görseli</label>
+            {editing.image_url && (
+              <div className="relative mb-2 h-32 w-32 overflow-hidden rounded-lg border border-zinc-200">
+                <Image src={editing.image_url} alt="Kapak" fill className="object-contain bg-zinc-50 p-2" sizes="128px" />
+                <button onClick={() => setEditing(v => ({ ...v!, image_url: "" }))}
+                  className="absolute right-1 top-1 rounded-full bg-red-500 p-0.5 text-white text-xs leading-none w-5 h-5 flex items-center justify-center">✕</button>
+              </div>
+            )}
+            <button onClick={() => fileRef.current?.click()} disabled={uploading}
+              className="rounded-lg border-2 border-dashed border-zinc-300 px-6 py-3 text-sm text-zinc-500 hover:border-navy-500 hover:text-navy-700 disabled:opacity-60 transition-colors">
+              {uploading ? "Yükleniyor..." : "Görsel Seç"}
+            </button>
+            <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
+          </div>
+
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-zinc-700 mb-1">Kategori Adı *</label>
