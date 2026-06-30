@@ -47,8 +47,8 @@ export default function HomePage() {
               className="group overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm hover:shadow-lg transition-all hover:-translate-y-1">
               <div className="relative flex h-44 items-center justify-center bg-zinc-50">
                 {cat.image_url
-                  ? <Image src={cat.image_url} alt={cat.name} fill className="object-contain p-4" sizes="300px" />
-                  : <span className="text-4xl">🔬</span>}
+  ? <Image src={cat.image_url} alt={cat.name} fill className="object-cover" sizes="300px" />
+  : <span className="text-4xl">🔬</span>}
               </div>
               <div className="p-4">
                 <h3 className="font-bold text-navy-950 group-hover:text-accent-dark">{cat.name}</h3>

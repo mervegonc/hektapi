@@ -21,8 +21,8 @@ export default function UrunlerPage() {
             className="group overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm hover:shadow-lg transition-all">
             <div className="relative flex h-48 items-center justify-center bg-zinc-50">
               {cat.image_url
-                ? <Image src={cat.image_url} alt={cat.name} fill className="object-contain p-4" sizes="400px" />
-                : <span className="text-5xl">🔬</span>}
+  ? <Image src={cat.image_url} alt={cat.name} fill className="object-cover" sizes="400px" />
+  : <span className="text-5xl">🔬</span>}
             </div>
             <div className="p-5">
               <h2 className="text-lg font-bold text-navy-950 group-hover:text-accent-dark">{cat.name}</h2>
