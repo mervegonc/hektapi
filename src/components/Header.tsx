@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import type { Category } from "@/types";
+import Image from "next/image";
 
 export default function Header() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -25,9 +26,10 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 bg-navy-950 text-white shadow-lg">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
-        <Link href="/" className="text-xl font-bold tracking-widest">
-          HEKTAPİ
-        </Link>
+        <Link href="/" className="flex items-center gap-3">
+  <Image src="/logo.png" alt="Hektapi Logo" width={40} height={40} className="h-10 w-10 object-contain" />
+  <span className="text-xl font-bold tracking-widest text-white">HEKTAPİ</span>
+</Link>
 
         {/* Desktop */}
         <nav className="hidden items-center gap-7 text-sm font-semibold md:flex">
