@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
 import type { Category } from "@/types";
+import HeroSlider from "@/components/HeroSlider";
 
 export default function HomePage() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -16,26 +17,7 @@ export default function HomePage() {
 
   return (
     <div>
-      {/* Hero */}
-      <section className="bg-gradient-to-b from-navy-950 via-navy-900 to-black px-4 py-28 text-center text-white">
-        <h1 className="mx-auto max-w-4xl text-4xl font-extrabold uppercase leading-tight tracking-wide sm:text-6xl">
-          ÖNCE TEST ET,<br />SONRA GÜVEN,<br />
-          <span className="text-accent">DAİMA KALİTEYİ SEÇ!</span>
-        </h1>
-        <p className="mx-auto mt-6 max-w-xl text-lg text-zinc-300">
-          Hektapi ile en son test makinalarını ve teknik ürünleri keşfedin.
-        </p>
-        <div className="mt-8 flex justify-center gap-4">
-          <Link href="/urunler"
-            className="rounded-md bg-accent px-7 py-3 font-bold text-navy-950 hover:bg-accent-dark transition-colors">
-            Ürünleri İncele
-          </Link>
-          <Link href="/iletisim"
-            className="rounded-md border border-white px-7 py-3 font-semibold hover:bg-white hover:text-navy-950 transition-colors">
-            İletişime Geç
-          </Link>
-        </div>
-      </section>
+      <HeroSlider />
 
       {/* Kategoriler */}
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
