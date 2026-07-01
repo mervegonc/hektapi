@@ -11,7 +11,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     await createClient().auth.signOut();
     router.push("/giris");
   }
-
+/*
+slider*/
   const links = [
     { href: "/admin", label: "🏠 Dashboard" },
     { href: "/admin/kategoriler", label: "📁 Kategoriler" },
