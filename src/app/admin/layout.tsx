@@ -9,8 +9,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
 async function handleLogout() {
   const supabase = createClient();
-  await supabase.auth.signOut();
-  window.location.href = "/giris?signout=1";
+  await supabase.auth.signOut({ scope: "local" });
+  // Tüm cookie'leri manuel temizle
+  document.cookie.split(";").forEach(c => {
+    document.cookie = c.trim().split("=")[0] + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
+  });
+  window.location.replace("/giris");
 }
 /*
 slider*/
