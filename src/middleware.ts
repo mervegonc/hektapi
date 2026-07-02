@@ -44,12 +44,12 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // Giriş sayfasında zaten giriş yapılmışsa admin'e yönlendir
-  if (request.nextUrl.pathname === "/giris" && user) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/admin";
-    return NextResponse.redirect(url);
-  }
+// Giriş sayfasında zaten giriş yapılmışsa admin'e yönlendir
+if (request.nextUrl.pathname === "/giris" && user) {
+  const url = request.nextUrl.clone();
+  url.pathname = "/admin";
+  return NextResponse.redirect(url);
+}
 
   return supabaseResponse;
 }

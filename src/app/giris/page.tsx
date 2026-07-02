@@ -1,14 +1,14 @@
 "use client";
 import { useState, FormEvent } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { useRouter } from "next/navigation";
+
 
 export default function GirisPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
+
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -16,9 +16,8 @@ export default function GirisPage() {
     setError("");
     const supabase = createClient();
     const { error: err } = await supabase.auth.signInWithPassword({ email, password });
-    if (err) { setError("Email veya şifre hatalı."); setLoading(false); return; }
-    await new Promise(resolve => setTimeout(resolve, 500));
-    router.push("/admin");
+if (err) { setError("Email veya şifre hatalı."); setLoading(false); return; }
+window.location.href = "/admin";
   }
 
   return (
