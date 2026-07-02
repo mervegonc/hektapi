@@ -7,10 +7,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const pathname = usePathname();
   const router = useRouter();
 
-  async function handleLogout() {
-    await createClient().auth.signOut();
-    router.push("/giris");
-  }
+async function handleLogout() {
+  const supabase = createClient();
+  await supabase.auth.signOut();
+  window.location.href = "/giris";
+}
 /*
 slider*/
   const links = [
