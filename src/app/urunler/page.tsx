@@ -11,26 +11,56 @@ export default function UrunlerPage() {
     createClient().from("categories").select("*").order("order")
       .then(({ data }) => setCats(data || []));
   }, []);
+
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <h1 className="mb-2 text-3xl font-bold text-navy-950">Ürün Kategorileri</h1>
-      <p className="mb-10 text-zinc-500">Kategoriye tıklayarak ilgili ürünleri görüntüleyebilirsiniz.</p>
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {cats.map((cat) => (
-          <Link key={cat.id} href={`/urunler/${cat.slug}`}
-            className="group overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm hover:shadow-lg transition-all">
-            <div className="relative flex h-48 items-center justify-center bg-zinc-50">
-              {cat.image_url
-  ? <Image src={cat.image_url} alt={cat.name} fill className="object-cover" sizes="400px" />
-  : <span className="text-5xl">🔬</span>}
-            </div>
-            <div className="p-5">
-              <h2 className="text-lg font-bold text-navy-950 group-hover:text-accent-dark">{cat.name}</h2>
-              {cat.description && <p className="mt-2 text-sm text-zinc-500">{cat.description}</p>}
-            </div>
-          </Link>
-        ))}
-      </div>
+    <div>
+      {/* Hero */}
+      <section className="bg-navy-950 px-4 py-16 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <p className="mb-3 text-xs font-bold uppercase tracking-widest text-accent">Ürün Portföyü</p>
+          <h1 className="text-4xl font-black text-white sm:text-5xl">Ürün Kategorileri</h1>
+          <div className="section-divider mt-4" />
+          <p className="mt-4 max-w-xl text-zinc-400">
+            Endüstriyel test ihtiyaçlarınız için geniş ürün yelpazemizi inceleyin.
+          </p>
+        </div>
+      </section>
+
+      {/* Grid */}
+      <section className="bg-gray-50 px-4 py-16 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {cats.map((cat) => (
+              <Link key={cat.id} href={`/urunler/${cat.slug}`}
+                className="premium-card group relative overflow-hidden rounded-2xl bg-white shadow-md border border-gray-100">
+                <div className="relative h-56 overflow-hidden">
+                  {cat.image_url
+                    ? <Image src={cat.image_url} alt={cat.name} fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />
+                    : (
+                      <div className="flex h-full items-center justify-center bg-gradient-to-br from-navy-900 to-navy-800">
+                        <span className="text-6xl opacity-20">⚗️</span>
+                      </div>
+                    )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-5">
+                    <h2 className="text-lg font-black text-white">{cat.name}</h2>
+                    {cat.description && (
+                      <p className="mt-1 line-clamp-2 text-xs text-zinc-300">{cat.description}</p>
+                    )}
+                  </div>
+                  <div className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-accent opacity-0 transition-all duration-300 group-hover:opacity-100">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
+                      <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

@@ -13,6 +13,7 @@ export default function UrunDetayPage() {
   const [product, setProduct] = useState<Product | null>(null);
   const [related, setRelated] = useState<Product[]>([]);
   const [activeImg, setActiveImg] = useState(0);
+  const [activeTab, setActiveTab] = useState<"aciklama" | "specs" | "kullanim">("aciklama");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -32,126 +33,179 @@ export default function UrunDetayPage() {
       });
   }, [kategori, urun]);
 
-  if (loading) return <div className="flex h-64 items-center justify-center text-zinc-400">Yükleniyor...</div>;
+  if (loading) return (
+    <div className="flex h-64 items-center justify-center">
+      <div className="h-8 w-8 animate-spin rounded-full border-2 border-accent border-t-transparent" />
+    </div>
+  );
   if (!cat || !product) return notFound();
 
   const allImages = [product.image_url, ...(product.images || [])].filter(Boolean) as string[];
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <nav className="mb-6 text-sm text-zinc-500">
-        <Link href="/urunler" className="hover:text-accent-dark">Ürünler</Link>
-        {" / "}
-        <Link href={`/urunler/${cat.slug}`} className="hover:text-accent-dark">{cat.name}</Link>
-        {" / "}<span className="text-navy-950">{product.name}</span>
-      </nav>
-
-      <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
-        {/* Görsel galeri */}
-        <div>
-          <div className="relative flex aspect-square items-center justify-center rounded-xl bg-zinc-50 border border-zinc-200 overflow-hidden">
-            {allImages.length > 0
-              ? <Image src={allImages[activeImg]} alt={product.name} fill className="object-contain p-6" sizes="50vw" priority />
-              : <span className="text-7xl">🔬</span>}
-          </div>
-          {allImages.length > 1 && (
-            <div className="mt-3 flex gap-2 flex-wrap">
-              {allImages.map((img, i) => (
-                <button key={img} onClick={() => setActiveImg(i)}
-                  className={`relative h-16 w-16 overflow-hidden rounded-lg border-2 ${i === activeImg ? "border-navy-900" : "border-zinc-200"}`}>
-                  <Image src={img} alt="" fill className="object-contain bg-zinc-50 p-1" sizes="64px" />
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Bilgi */}
-        <div>
-          {product.standards && (
-            <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-accent-dark">
-              {product.standards}
-            </p>
-          )}
-          <h1 className="text-2xl font-bold text-navy-950 sm:text-3xl">{product.name}</h1>
-          {product.description && (
-            <div
-              className="mt-4 prose prose-sm max-w-none text-zinc-600"
-              dangerouslySetInnerHTML={{ __html: product.description }}
-            />
-          )}
-
-          <div className="mt-6">
-            <QuoteButton productName={product.name} />
-          </div>
-
-          {/* Öne çıkan özellikler */}
-          {product.highlights?.length > 0 && (
-            <div className="mt-8">
-              <h2 className="mb-3 text-base font-bold text-navy-950">Öne Çıkan Özellikler</h2>
-              <ul className="space-y-2">
-                {product.highlights.map((h: string) => (
-                  <li key={h} className="flex gap-2 text-sm text-zinc-600">
-                    <span className="mt-0.5 text-accent-dark shrink-0">●</span>
-                    <span>{h}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {/* Teknik özellikler */}
-          {product.specs?.length > 0 && (
-            <div className="mt-8">
-              <h2 className="mb-3 text-base font-bold text-navy-950">Teknik Özellikler</h2>
-              <table className="w-full overflow-hidden rounded-lg border border-zinc-200 text-sm">
-                <tbody>
-                  {product.specs.map((spec: ProductSpec, i: number) => (
-                    <tr key={spec.label} className={i % 2 === 0 ? "bg-zinc-50" : "bg-white"}>
-                      <td className="w-2/5 border-b border-zinc-200 px-4 py-2.5 font-semibold text-navy-950">{spec.label}</td>
-                      <td className="border-b border-zinc-200 px-4 py-2.5 text-zinc-600">{spec.value}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-
-          {/* Kullanım alanları */}
-          {product.use_cases?.length > 0 && (
-            <div className="mt-8">
-              <h2 className="mb-3 text-base font-bold text-navy-950">Kullanım Alanları</h2>
-              <div className="flex flex-wrap gap-2">
-                {product.use_cases.map((u: string) => (
-                  <span key={u} className="rounded-full bg-zinc-100 px-3 py-1 text-xs text-zinc-700">{u}</span>
-                ))}
-              </div>
-            </div>
-          )}
+    <div className="bg-gray-50">
+      {/* Breadcrumb */}
+      <div className="bg-navy-950 px-4 py-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <nav className="flex items-center gap-2 text-xs text-zinc-500">
+            <Link href="/urunler" className="hover:text-accent transition-colors">Ürünler</Link>
+            <span>/</span>
+            <Link href={`/urunler/${cat.slug}`} className="hover:text-accent transition-colors">{cat.name}</Link>
+            <span>/</span>
+            <span className="text-zinc-300 line-clamp-1">{product.name}</span>
+          </nav>
         </div>
       </div>
 
-      {/* İlgili ürünler */}
-      {related.length > 0 && (
-        <div className="mt-16">
-          <h2 className="mb-6 text-xl font-bold text-navy-950">{cat.name} — Diğer Ürünler</h2>
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-            {related.map((r) => (
-              <Link key={r.id} href={`/urunler/${cat.slug}/${r.slug}`}
-                className="group overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm hover:shadow-md transition-all">
-                <div className="relative flex aspect-square items-center justify-center bg-zinc-50">
-                  {r.image_url
-                    ? <Image src={r.image_url} alt={r.name} fill className="object-contain p-3" sizes="200px" />
-                    : <span className="text-3xl">🔬</span>}
+      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
+          {/* Görsel galeri */}
+          <div className="space-y-4">
+            <div className="relative overflow-hidden rounded-2xl bg-white shadow-sm border border-gray-100" style={{ aspectRatio: "1/1" }}>
+              {allImages.length > 0
+                ? <Image src={allImages[activeImg]} alt={product.name} fill
+                    className="object-contain p-8" sizes="(max-width: 1024px) 100vw, 50vw" priority />
+                : (
+                  <div className="flex h-full items-center justify-center">
+                    <span className="text-8xl opacity-10">⚗️</span>
+                  </div>
+                )}
+              {/* Standartlar badge */}
+              {product.standards && (
+                <div className="absolute left-4 top-4 rounded-full bg-navy-950/90 px-3 py-1 text-xs font-semibold text-accent backdrop-blur-sm">
+                  {product.standards.split(";")[0].trim()}
                 </div>
-                <div className="p-3">
-                  <h3 className="text-xs font-bold text-navy-950 group-hover:text-accent-dark">{r.name}</h3>
-                </div>
-              </Link>
-            ))}
+              )}
+            </div>
+
+            {allImages.length > 1 && (
+              <div className="flex gap-2 overflow-x-auto pb-1">
+                {allImages.map((img, i) => (
+                  <button key={img} onClick={() => setActiveImg(i)}
+                    className={`relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border-2 transition-all ${
+                      i === activeImg ? "border-accent shadow-md shadow-accent/20" : "border-gray-200 hover:border-gray-300"
+                    }`}>
+                    <Image src={img} alt="" fill className="object-contain bg-white p-1" sizes="64px" />
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Bilgi */}
+          <div>
+            {product.standards && (
+              <p className="mb-2 text-xs font-bold uppercase tracking-widest text-zinc-400">
+                {product.standards}
+              </p>
+            )}
+            <h1 className="text-2xl font-black text-navy-950 sm:text-3xl leading-tight">{product.name}</h1>
+
+            {/* Teklif butonu */}
+            <div className="mt-6">
+              <QuoteButton productName={product.name} />
+            </div>
+
+            {/* Öne çıkan özellikler - hep görünür */}
+            {product.highlights?.length > 0 && (
+              <div className="mt-8 rounded-2xl bg-navy-950 p-5">
+                <p className="mb-3 text-xs font-bold uppercase tracking-widest text-accent">Öne Çıkan Özellikler</p>
+                <ul className="space-y-2">
+                  {product.highlights.map((h: string) => (
+                    <li key={h} className="flex gap-2 text-sm text-zinc-300">
+                      <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+                      <span>{h}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Tabs */}
+            <div className="mt-6">
+              <div className="flex gap-1 rounded-xl bg-gray-100 p-1">
+                {[
+                  { key: "aciklama", label: "Açıklama" },
+                  { key: "specs", label: "Teknik Özellikler" },
+                  ...(product.use_cases?.length > 0 ? [{ key: "kullanim", label: "Kullanım" }] : []),
+                ].map((tab) => (
+                  <button key={tab.key} onClick={() => setActiveTab(tab.key as typeof activeTab)}
+                    className={`flex-1 rounded-lg px-3 py-2 text-xs font-bold transition-all ${
+                      activeTab === tab.key
+                        ? "bg-white text-navy-950 shadow-sm"
+                        : "text-zinc-500 hover:text-zinc-700"
+                    }`}>
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
+
+              <div className="mt-4">
+                {activeTab === "aciklama" && product.description && (
+                  <div className="prose text-sm text-zinc-600"
+                    dangerouslySetInnerHTML={{ __html: product.description }} />
+                )}
+
+                {activeTab === "specs" && product.specs?.length > 0 && (
+                  <div className="overflow-hidden rounded-xl border border-gray-100">
+                    <table className="w-full text-sm">
+                      <tbody>
+                        {product.specs.map((spec: ProductSpec, i: number) => (
+                          <tr key={spec.label} className={i % 2 === 0 ? "bg-gray-50" : "bg-white"}>
+                            <td className="w-2/5 border-b border-gray-100 px-4 py-3 font-semibold text-navy-950">{spec.label}</td>
+                            <td className="border-b border-gray-100 px-4 py-3 text-zinc-600">{spec.value}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+
+                {activeTab === "kullanim" && product.use_cases?.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
+                    {product.use_cases.map((u: string) => (
+                      <span key={u}
+                        className="rounded-full border border-gray-200 bg-white px-4 py-2 text-xs font-medium text-zinc-700 shadow-sm">
+                        {u}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
-      )}
+
+        {/* İlgili ürünler */}
+        {related.length > 0 && (
+          <div className="mt-16">
+            <div className="mb-6 flex items-center justify-between">
+              <h2 className="text-xl font-black text-navy-950">{cat.name} — Diğer Ürünler</h2>
+              <Link href={`/urunler/${cat.slug}`}
+                className="text-xs font-semibold text-accent hover:text-accent-dark transition-colors">
+                Tümünü Gör →
+              </Link>
+            </div>
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+              {related.map((r) => (
+                <Link key={r.id} href={`/urunler/${cat.slug}/${r.slug}`}
+                  className="premium-card group overflow-hidden rounded-2xl bg-white shadow-sm border border-gray-100">
+                  <div className="relative flex aspect-square items-center justify-center overflow-hidden bg-gray-50">
+                    {r.image_url
+                      ? <Image src={r.image_url} alt={r.name} fill
+                          className="object-contain p-3 transition-transform duration-500 group-hover:scale-105"
+                          sizes="200px" />
+                      : <span className="text-3xl opacity-20">⚗️</span>}
+                  </div>
+                  <div className="border-t border-gray-100 p-3">
+                    <h3 className="text-xs font-bold text-navy-950 group-hover:text-accent transition-colors line-clamp-2">{r.name}</h3>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
