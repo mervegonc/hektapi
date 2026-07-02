@@ -35,7 +35,7 @@ export default function Header() {
             <Image src="/logo.png" alt="Hektapi Logo" fill className="object-contain" sizes="40px" />
           </div>
           <span className="text-xl font-black tracking-wider text-white">
-            HEKT<span className="text-accent">APİ</span>
+            HEKTA<span className="text-accent">Pİ</span>
           </span>
         </Link>
 
@@ -58,8 +58,8 @@ export default function Header() {
               </svg>
             </button>
             {kurumOpen && (
-             <div className="absolute left-0 top-full w-64 pt-2 ...">
-                <div className="p-1">
+             <div className="absolute left-0 top-full w-52 pt-2" style={{ paddingBottom: "8px" }}>
+  <div className="overflow-hidden rounded-xl border border-white/10 bg-navy-900 shadow-2xl shadow-black/40 p-1">
                   <Link href="/kurumsal/hakkimizda"
                     className="flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm text-zinc-300 transition-colors hover:bg-white/10 hover:text-white">
                     <span>🏢</span> Hakkımızda
@@ -87,8 +87,8 @@ export default function Header() {
               </svg>
             </Link>
             {productsOpen && (
-              <div className="absolute left-0 top-full w-64 pt-2 ...">
-                <div className="p-1">
+              <div className="absolute left-0 top-full w-64 pt-2" style={{ paddingBottom: "8px" }}>
+  <div className="overflow-hidden rounded-xl border border-white/10 bg-navy-900 shadow-2xl shadow-black/40 p-1">
                   {categories.map((cat) => (
                     <Link key={cat.id} href={`/urunler/${cat.slug}`}
                       className="flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm text-zinc-300 transition-colors hover:bg-white/10 hover:text-white">
