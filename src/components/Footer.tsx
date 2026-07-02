@@ -14,7 +14,7 @@ export default function Footer() {
                 <Image src="/logo.png" alt="Hektapi" fill className="object-contain" sizes="40px" />
               </div>
               <span className="text-xl font-black text-white">
-                HEKT<span className="text-accent">APİ</span>
+                HEKTA<span className="text-accent">Pİ</span>
               </span>
             </Link>
             <p className="mt-4 text-sm leading-relaxed text-zinc-500">
