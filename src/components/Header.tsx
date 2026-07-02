@@ -58,7 +58,7 @@ export default function Header() {
               </svg>
             </button>
             {kurumOpen && (
-              <div className="absolute left-0 top-full mt-1 w-52 overflow-hidden rounded-xl border border-white/10 bg-navy-900 shadow-2xl shadow-black/40">
+             <div className="absolute left-0 top-full w-64 pt-2 ...">
                 <div className="p-1">
                   <Link href="/kurumsal/hakkimizda"
                     className="flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm text-zinc-300 transition-colors hover:bg-white/10 hover:text-white">
@@ -87,7 +87,7 @@ export default function Header() {
               </svg>
             </Link>
             {productsOpen && (
-              <div className="absolute left-0 top-full mt-1 w-64 overflow-hidden rounded-xl border border-white/10 bg-navy-900 shadow-2xl shadow-black/40">
+              <div className="absolute left-0 top-full w-64 pt-2 ...">
                 <div className="p-1">
                   {categories.map((cat) => (
                     <Link key={cat.id} href={`/urunler/${cat.slug}`}
