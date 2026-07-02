@@ -13,7 +13,7 @@ interface Solution {
   youtube_url: string | null;
   order: number;
 }
-
+//fixing the mobile video player issue
 function getYoutubeId(url: string) {
   const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\s]+)/);
   return match ? match[1] : null;
