@@ -27,29 +27,19 @@ export async function middleware(request: NextRequest) {
 
   const { data: { user } } = await supabase.auth.getUser();
 
-  // Admin sayfalarını koru
   if (request.nextUrl.pathname.startsWith("/admin")) {
     if (!user) {
       const url = request.nextUrl.clone();
       url.pathname = "/giris";
       return NextResponse.redirect(url);
     }
-
-    // Sadece admin emaili geçebilir
-    const adminEmail = process.env.ADMIN_EMAIL;
-    if (adminEmail && user.email !== adminEmail) {
-      const url = request.nextUrl.clone();
-      url.pathname = "/";
-      return NextResponse.redirect(url);
-    }
   }
 
-// Giriş sayfasında zaten giriş yapılmışsa admin'e yönlendir
-if (request.nextUrl.pathname === "/giris" && user) {
-  const url = request.nextUrl.clone();
-  url.pathname = "/admin";
-  return NextResponse.redirect(url);
-}
+  if (request.nextUrl.pathname === "/giris" && user) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/admin";
+    return NextResponse.redirect(url);
+  }
 
   return supabaseResponse;
 }
