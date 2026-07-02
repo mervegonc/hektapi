@@ -10,15 +10,17 @@ export default function GirisPage() {
   const [loading, setLoading] = useState(false);
 
 
-  async function handleSubmit(e: FormEvent) {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
-    const supabase = createClient();
-    const { error: err } = await supabase.auth.signInWithPassword({ email, password });
-if (err) { setError("Email veya şifre hatalı."); setLoading(false); return; }
-window.location.href = "/admin";
-  }
+async function handleSubmit(e: FormEvent) {
+  e.preventDefault();
+  setLoading(true);
+  setError("");
+  console.log("Submit başladı, email:", email);
+  const supabase = createClient();
+  const { data, error: err } = await supabase.auth.signInWithPassword({ email, password });
+  console.log("Sonuç:", data, err);
+  if (err) { setError("Email veya şifre hatalı."); setLoading(false); return; }
+  window.location.href = "/admin";
+}
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-navy-950 px-4">
