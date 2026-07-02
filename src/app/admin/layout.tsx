@@ -10,7 +10,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 async function handleLogout() {
   const supabase = createClient();
   await supabase.auth.signOut();
-  window.location.href = "/giris";
+  window.location.href = "/giris?signout=1";
 }
 /*
 slider*/
