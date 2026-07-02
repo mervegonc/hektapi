@@ -18,6 +18,7 @@ slider*/
     { href: "/admin/kategoriler", label: "📁 Kategoriler" },
     { href: "/admin/urunler", label: "📦 Ürünler" },
     { href: "/admin/slider", label: "🖼️ Slider" },
+    { href: "/admin/hizmetler", label: "🔧 Hizmetlerimiz" },
     { href: "/admin/talepler", label: "📩 Teklif Talepleri" },
   ];
 
