@@ -39,13 +39,23 @@ export default function IletisimPage() {
                 className="font-semibold hover:text-accent">Instagram</a>
             </div>
           </div>
-          {/* Google Maps embed */}
+
           <div className="mt-8 overflow-hidden rounded-xl">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3057.5!2d32.7!3d39.99!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMznCsDU5JzI0LjAiTiAzMsKwNDInMDAuMCJF!5e0!3m2!1str!2str!4v1"
+              src="https://maps.google.com/maps?q=İvedik+OSB+1462+Cadde+No+24+Yenimahalle+Ankara&output=embed"
               width="100%" height="220" style={{ border: 0 }} allowFullScreen loading="lazy"
               title="Hektapi Konum" />
           </div>
+          <a
+            href="https://maps.google.com/?q=İvedik+OSB+1462.+Cadde+No:24+Yenimahalle+Ankara"
+            target="_blank"
+            rel="noreferrer"
+            className="mt-2 inline-flex items-center gap-1 text-xs text-accent hover:text-accent-light transition-colors">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            Google Maps'te Aç →
+          </a>
         </div>
 
         <div>
