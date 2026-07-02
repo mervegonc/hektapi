@@ -66,9 +66,9 @@ export default function HizmetlerimizPage() {
               )}
 
               {s.media_type === "youtube" && s.youtube_url && getYoutubeId(s.youtube_url) && (
-                <div className="aspect-video w-full overflow-hidden rounded-xl bg-zinc-900">
-                  <iframe
-                    width="100%" height="100%"
+                <div className="relative w-full overflow-hidden rounded-xl bg-zinc-900" style={{ paddingBottom: "56.25%" }}>
+  <iframe
+    style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
                     src={`https://www.youtube.com/embed/${getYoutubeId(s.youtube_url)}`}
                     title={s.title}
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
