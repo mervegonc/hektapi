@@ -25,6 +25,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { href: "/admin/slider", label: "🖼️ Slider" },
     { href: "/admin/hizmetler", label: "🔧 Hizmetlerimiz" },
     { href: "/admin/cozumler", label: "💡 Çözümlerimiz" },
+    { href: "/admin/standartlar", label: "📋 Standartlar" },
     { href: "/admin/talepler", label: "📩 Teklif Talepleri" },
   ];
 

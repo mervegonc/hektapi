@@ -129,6 +129,11 @@ export default function Header() {
               {isActive("/cozumlerimiz") && <span className="absolute bottom-0 left-4 right-4 h-0.5 rounded-full bg-accent" />}
             </Link>
 
+<Link href="/standartlar" className={navLinkClass(isActive("/standartlar"))}>
+  Standartlar
+  {isActive("/standartlar") && <span className="absolute bottom-0 left-4 right-4 h-0.5 rounded-full bg-accent" />}
+</Link>
+
             <Link href="/iletisim"
               className="ml-3 rounded-full bg-accent px-5 py-2 text-sm font-bold text-navy-950 transition-all hover:bg-accent-light hover:shadow-lg hover:shadow-accent/30">
               İletişim
@@ -160,6 +165,7 @@ export default function Header() {
                 { href: "/urunler", label: "Tüm Ürünler" },
                 { href: "/hizmetlerimiz", label: "Hizmetlerimiz" },
                 { href: "/cozumlerimiz", label: "Çözümlerimiz" },
+                { href: "/standartlar", label: "Standartlar" },
                 { href: "/iletisim", label: "İletişim" },
               ].map(({ href, label }) => (
                 <Link key={href} href={href}
