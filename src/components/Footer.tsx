@@ -103,7 +103,7 @@ export default function Footer() {
               </li>
             </ul>
 
-            <Link href="/iletisim"
+            <Link href="/iletisim#top"
               className="mt-6 inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-xs font-bold text-navy-950 transition-all hover:bg-accent-light">
               Teklif Al
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">

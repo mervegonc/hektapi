@@ -27,7 +27,7 @@ export default function Header() {
   const isKurumActive = pathname.startsWith("/kurumsal");
 
   const linkClass = (active: boolean) =>
-    `relative flex items-center gap-1 px-3 py-2 text-sm font-semibold rounded-lg transition-colors whitespace-nowrap
+    `relative flex items-center gap-1 h-10 px-3 text-sm font-semibold rounded-lg transition-colors whitespace-nowrap
     ${active ? "text-accent" : "text-zinc-300 hover:text-white hover:bg-white/10"}`;
 
   const activeLine = <span className="absolute bottom-0 left-3 right-3 h-0.5 rounded-full bg-accent" />;
@@ -36,10 +36,10 @@ export default function Header() {
     <header className={`sticky top-0 z-50 transition-all duration-300 ${
       scrolled ? "bg-navy-950/95 backdrop-blur-md shadow-lg shadow-black/20" : "bg-navy-950"
     }`}>
-      <div className="mx-auto flex max-w-7xl items-center gap-2 px-4 py-3 sm:px-6 lg:px-8">
+      <div className="mx-auto flex max-w-7xl items-center px-4 py-2 sm:px-6 lg:px-8 gap-1">
 
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5 group shrink-0 mr-4">
+        <Link href="/" className="flex items-center gap-2.5 group shrink-0 mr-3">
           <div className="relative h-9 w-9 overflow-hidden rounded-lg transition-transform duration-300 group-hover:scale-110">
             <Image src="/logo.png" alt="Hektapi Logo" fill className="object-contain" sizes="36px" />
           </div>
@@ -49,17 +49,17 @@ export default function Header() {
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden items-center md:flex flex-1">
+        <nav className="hidden md:flex items-center flex-1 gap-0.5">
+
           <Link href="/" className={linkClass(isActive("/"))}>
             Anasayfa
             {isActive("/") && activeLine}
           </Link>
 
-          {/* Kurumsal */}
-          <div className="relative"
+          {/* Kurumsal dropdown */}
+          <div className="relative flex items-center"
             onMouseEnter={() => setKurumOpen(true)}
-            onMouseLeave={() => setKurumOpen(false)}
-            style={{ paddingBottom: "8px" }}>
+            onMouseLeave={() => setKurumOpen(false)}>
             <button className={linkClass(isKurumActive)}>
               Kurumsal
               <svg width="10" height="10" viewBox="0 0 12 12" fill="currentColor"
@@ -69,7 +69,7 @@ export default function Header() {
               {isKurumActive && activeLine}
             </button>
             {kurumOpen && (
-              <div className="absolute left-0 top-full w-48 pt-2">
+              <div className="absolute left-0 top-full pt-2 w-48" style={{ top: "100%" }}>
                 <div className="rounded-xl border border-white/10 bg-navy-900 shadow-2xl shadow-black/40 p-1">
                   {[
                     { href: "/kurumsal/hakkimizda", label: "Hakkımızda" },
@@ -87,11 +87,10 @@ export default function Header() {
             )}
           </div>
 
-          {/* Ürünler */}
-          <div className="relative"
+          {/* Ürünler dropdown */}
+          <div className="relative flex items-center"
             onMouseEnter={() => setProductsOpen(true)}
-            onMouseLeave={() => setProductsOpen(false)}
-            style={{ paddingBottom: "8px" }}>
+            onMouseLeave={() => setProductsOpen(false)}>
             <Link href="/urunler" className={linkClass(isProductsActive)}>
               Ürünler
               <svg width="10" height="10" viewBox="0 0 12 12" fill="currentColor"
@@ -101,8 +100,8 @@ export default function Header() {
               {isProductsActive && activeLine}
             </Link>
             {productsOpen && (
-              <div className="absolute left-0 top-full w-60 pt-2">
-                <div className="rounded-xl border border-white/10 bg-navy-900 shadow-2xl shadow-black/40 p-1">
+              <div className="absolute left-0 w-60" style={{ top: "100%" }}>
+                <div className="rounded-xl border border-white/10 bg-navy-900 shadow-2xl shadow-black/40 p-1 mt-2">
                   {categories.map((cat) => (
                     <Link key={cat.id} href={`/urunler/${cat.slug}`}
                       className={`flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm transition-colors
@@ -132,7 +131,7 @@ export default function Header() {
           </Link>
 
           <Link href="/iletisim"
-            className="ml-auto rounded-full bg-accent px-5 py-2 text-sm font-bold text-navy-950 transition-all hover:bg-accent-light hover:shadow-lg hover:shadow-accent/30 whitespace-nowrap">
+            className="ml-auto rounded-full bg-accent px-5 h-10 flex items-center text-sm font-bold text-navy-950 transition-all hover:bg-accent-light hover:shadow-lg hover:shadow-accent/30 whitespace-nowrap">
             İletişim
           </Link>
         </nav>
@@ -148,7 +147,7 @@ export default function Header() {
         </button>
       </div>
 
-      {/* Navbar alt gradient çizgi */}
+      {/* Alt gradient çizgi */}
       <div className="h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
 
       {/* Mobile menu */}
@@ -192,3 +191,4 @@ export default function Header() {
     </header>
   );
 }
+
