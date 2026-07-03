@@ -3,11 +3,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { useSite } from "@/context/SiteContext";
 import { createClient } from "@/lib/supabase/client";
-import type { Category } from "@/types";
 
 export default function Header() {
-  const [categories, setCategories] = useState<Category[]>([]);
+  const { categories } = useSite();
   const [productsOpen, setProductsOpen] = useState(false);
   const [kurumOpen, setKurumOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -15,12 +15,15 @@ export default function Header() {
   const pathname = usePathname();
 
   useEffect(() => {
-    createClient().from("categories").select("*").order("order")
-      .then(({ data }) => setCategories(data || []));
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Mobil menü sayfa değişince kapansın
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
 
   const isActive = (href: string) => pathname === href;
   const isProductsActive = pathname.startsWith("/urunler");
@@ -38,13 +41,13 @@ export default function Header() {
     }`}>
       <div className="mx-auto flex max-w-7xl items-center px-4 py-2 sm:px-6 lg:px-8 gap-1">
 
-        {/* Logo */}
+        {/* Logo — her zaman görünür, image priority */}
         <Link href="/" className="flex items-center gap-2.5 group shrink-0 mr-3">
-          <div className="relative h-9 w-9 overflow-hidden rounded-lg transition-transform duration-300 group-hover:scale-110">
-            <Image src="/logo.png" alt="Hektapi Logo" fill className="object-contain" sizes="36px" />
+          <div className="relative h-9 w-9 shrink-0">
+            <Image src="/logo.png" alt="Hektapi" fill className="object-contain" sizes="36px" priority />
           </div>
           <span className="text-lg font-black tracking-wider text-white">
-            HEKTA<span className="text-accent">Pİ</span>
+            HEKTAP<span className="text-accent">İ</span>
           </span>
         </Link>
 
@@ -56,7 +59,7 @@ export default function Header() {
             {isActive("/") && activeLine}
           </Link>
 
-          {/* Kurumsal dropdown */}
+          {/* Kurumsal */}
           <div className="relative flex items-center"
             onMouseEnter={() => setKurumOpen(true)}
             onMouseLeave={() => setKurumOpen(false)}>
@@ -69,7 +72,7 @@ export default function Header() {
               {isKurumActive && activeLine}
             </button>
             {kurumOpen && (
-              <div className="absolute left-0 top-full pt-2 w-48" style={{ top: "100%" }}>
+              <div className="absolute left-0 top-full pt-2 w-48 z-50">
                 <div className="rounded-xl border border-white/10 bg-navy-900 shadow-2xl shadow-black/40 p-1">
                   {[
                     { href: "/kurumsal/hakkimizda", label: "Hakkımızda" },
@@ -87,7 +90,7 @@ export default function Header() {
             )}
           </div>
 
-          {/* Ürünler dropdown */}
+          {/* Ürünler */}
           <div className="relative flex items-center"
             onMouseEnter={() => setProductsOpen(true)}
             onMouseLeave={() => setProductsOpen(false)}>
@@ -100,8 +103,8 @@ export default function Header() {
               {isProductsActive && activeLine}
             </Link>
             {productsOpen && (
-              <div className="absolute left-0 w-60" style={{ top: "100%" }}>
-                <div className="rounded-xl border border-white/10 bg-navy-900 shadow-2xl shadow-black/40 p-1 mt-2">
+              <div className="absolute left-0 top-full pt-2 w-60 z-50">
+                <div className="rounded-xl border border-white/10 bg-navy-900 shadow-2xl shadow-black/40 p-1">
                   {categories.map((cat) => (
                     <Link key={cat.id} href={`/urunler/${cat.slug}`}
                       className={`flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm transition-colors
@@ -131,12 +134,12 @@ export default function Header() {
           </Link>
 
           <Link href="/iletisim"
-            className="ml-auto rounded-full bg-accent px-5 h-10 flex items-center text-sm font-bold text-navy-950 transition-all hover:bg-accent-light hover:shadow-lg hover:shadow-accent/30 whitespace-nowrap">
+            className="ml-auto rounded-full bg-accent h-10 px-5 flex items-center text-sm font-bold text-navy-950 transition-all hover:bg-accent-light hover:shadow-lg hover:shadow-accent/30 whitespace-nowrap">
             İletişim
           </Link>
         </nav>
 
-        {/* Mobile button */}
+        {/* Mobile burger */}
         <button className="md:hidden ml-auto rounded-lg p-2 text-white hover:bg-white/10"
           onClick={() => setMobileOpen(!mobileOpen)}>
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -147,7 +150,6 @@ export default function Header() {
         </button>
       </div>
 
-      {/* Alt gradient çizgi */}
       <div className="h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
 
       {/* Mobile menu */}
@@ -166,8 +168,7 @@ export default function Header() {
             ].map(({ href, label }) => (
               <Link key={href} href={href}
                 className={`block rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors
-                  ${pathname === href ? "bg-accent/10 text-accent" : "text-zinc-300 hover:bg-white/10 hover:text-white"}`}
-                onClick={() => setMobileOpen(false)}>
+                  ${pathname === href ? "bg-accent/10 text-accent" : "text-zinc-300 hover:bg-white/10 hover:text-white"}`}>
                 {label}
               </Link>
             ))}
@@ -177,8 +178,7 @@ export default function Header() {
                 {categories.map((cat) => (
                   <Link key={cat.id} href={`/urunler/${cat.slug}`}
                     className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm transition-colors
-                      ${pathname === `/urunler/${cat.slug}` ? "text-accent" : "text-zinc-400 hover:bg-white/10 hover:text-white"}`}
-                    onClick={() => setMobileOpen(false)}>
+                      ${pathname === `/urunler/${cat.slug}` ? "text-accent" : "text-zinc-400 hover:bg-white/10 hover:text-white"}`}>
                     <span className="h-1.5 w-1.5 rounded-full bg-accent shrink-0" />
                     {cat.name}
                   </Link>
@@ -191,4 +191,3 @@ export default function Header() {
     </header>
   );
 }
-
