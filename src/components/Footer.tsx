@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -6,8 +7,9 @@ export default function Footer() {
     <footer className="bg-navy-950 text-zinc-400">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-4">
+          {/* Brand */}
           <div className="lg:col-span-1">
-            <Link href="/" className="flex items-center gap-3">
+            <Link href="/" className="flex items-center gap-2.5">
               <div className="relative h-10 w-10">
                 <Image src="/logo.png" alt="Hektapi" fill className="object-contain" sizes="40px" />
               </div>
@@ -18,20 +20,29 @@ export default function Footer() {
             <p className="mt-4 text-sm leading-relaxed text-zinc-500">
               Endüstriyel test cihazları alanında 20+ yıllık deneyimle güvenilir çözümler sunuyoruz.
             </p>
+            {/* Sosyal medya - SVG ikonlar, emoji yok */}
             <div className="mt-6 flex gap-3">
               <a href="https://www.linkedin.com/company/hektapi̇-mühendi̇sli̇k-san-ve-ti̇c-ltd-şti̇/"
                 target="_blank" rel="noreferrer"
-                className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/5 text-xs font-bold text-zinc-400 transition-all hover:bg-accent hover:text-navy-950">
-                in
+                className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/5 text-zinc-400 transition-all hover:bg-accent hover:text-navy-950">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/>
+                  <circle cx="4" cy="4" r="2"/>
+                </svg>
               </a>
               <a href="https://www.instagram.com/hektapi.muhendislik/"
                 target="_blank" rel="noreferrer"
-                className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/5 text-xs font-bold text-zinc-400 transition-all hover:bg-accent hover:text-navy-950">
-                ig
+                className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/5 text-zinc-400 transition-all hover:bg-accent hover:text-navy-950">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                  <circle cx="12" cy="12" r="4"/>
+                  <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+                </svg>
               </a>
             </div>
           </div>
 
+          {/* Kurumsal */}
           <div>
             <h3 className="mb-5 text-xs font-bold uppercase tracking-widest text-white">Kurumsal</h3>
             <ul className="space-y-3 text-sm">
@@ -45,7 +56,7 @@ export default function Footer() {
               ].map(([href, label]) => (
                 <li key={href}>
                   <Link href={href} className="flex items-center gap-2 transition-colors hover:text-accent">
-                    <span className="h-1 w-3 rounded bg-accent/50" />
+                    <span className="h-px w-3 bg-accent/50" />
                     {label}
                   </Link>
                 </li>
@@ -53,6 +64,7 @@ export default function Footer() {
             </ul>
           </div>
 
+          {/* Kategoriler */}
           <div>
             <h3 className="mb-5 text-xs font-bold uppercase tracking-widest text-white">Ürün Kategorileri</h3>
             <ul className="space-y-3 text-sm">
@@ -67,7 +79,7 @@ export default function Footer() {
               ].map(([href, label]) => (
                 <li key={href}>
                   <Link href={href} className="flex items-center gap-2 transition-colors hover:text-accent">
-                    <span className="h-1 w-3 rounded bg-accent/50" />
+                    <span className="h-px w-3 bg-accent/50" />
                     {label}
                   </Link>
                 </li>
@@ -75,26 +87,34 @@ export default function Footer() {
             </ul>
           </div>
 
+          {/* İletişim */}
           <div>
             <h3 className="mb-5 text-xs font-bold uppercase tracking-widest text-white">İletişim</h3>
             <ul className="space-y-4 text-sm">
               <li className="flex gap-3">
-                <span className="mt-0.5 shrink-0 text-accent">📍</span>
+                <svg className="mt-0.5 shrink-0 text-accent" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                </svg>
                 <span className="text-zinc-500">İvedik OSB 1462. Cadde No:24, Yenimahalle / ANKARA</span>
               </li>
               <li>
                 <a href="tel:+905346111271" className="flex items-center gap-3 transition-colors hover:text-accent">
-                  <span className="text-accent">📞</span>
+                  <svg className="text-accent shrink-0" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.5 19.79 19.79 0 0 1 1.61 4.9 2 2 0 0 1 3.6 2.69h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 10.5a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 18z"/>
+                  </svg>
                   0534 611 12 71
                 </a>
               </li>
               <li>
                 <a href="mailto:info@hektapi.com.tr" className="flex items-center gap-3 transition-colors hover:text-accent">
-                  <span className="text-accent">✉️</span>
+                  <svg className="text-accent shrink-0" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+                  </svg>
                   info@hektapi.com.tr
                 </a>
               </li>
             </ul>
+
             <Link href="/iletisim"
               className="mt-6 inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-xs font-bold text-navy-950 transition-all hover:bg-accent-light">
               Teklif Al
