@@ -30,7 +30,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   ];
 
   return (
-    <div className="min-h-screen bg-zinc-100">
+    <div className="min-h-screen bg-zinc-100" style={{ backgroundColor: "#f4f4f5" }}>
 
       {/* Mobil overlay */}
       {sidebarOpen && (
@@ -95,7 +95,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </button>
         </header>
 
-        <main className="flex-1 p-4 lg:p-6">
+        <main className="flex-1 p-4 lg:p-6 bg-zinc-100">
           {children}
         </main>
       </div>
