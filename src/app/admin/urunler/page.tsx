@@ -67,8 +67,9 @@ export default function AdminUrunlerPage() {
             <tr>
               <th className="px-4 py-3 text-left font-semibold text-zinc-600">Ürün</th>
               <th className="px-4 py-3 text-left font-semibold text-zinc-600">Kategoriler</th>
-              <th className="px-4 py-3 text-left font-semibold text-zinc-600">Durum</th>
-              <th className="px-4 py-3 text-right font-semibold text-zinc-600">İşlemler</th>
+<th className="px-4 py-3 text-left font-semibold text-zinc-600">Durum</th>
+<th className="px-4 py-3 text-left font-semibold text-zinc-600">Eklenme</th>
+<th className="px-4 py-3 text-right font-semibold text-zinc-600">İşlemler</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-zinc-100">
@@ -82,6 +83,11 @@ export default function AdminUrunlerPage() {
                     <span className="font-medium text-navy-950">{p.name}</span>
                   </div>
                 </td>
+<td className="px-4 py-3 text-xs text-zinc-400">
+  {new Date(p.created_at).toLocaleDateString("tr-TR")}<br/>
+  {new Date(p.created_at).toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" })}
+</td>
+
                 <td className="px-4 py-3 text-zinc-500">{categoryNames(p.category_ids)}</td>
                 <td className="px-4 py-3">
                   <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
