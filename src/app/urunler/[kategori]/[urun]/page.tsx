@@ -34,7 +34,7 @@ export default function UrunDetayPage() {
   }, [kategori, urun]);
 
   if (loading) return (
-    <div className="flex h-64 items-center justify-center">
+    <div className="flex h-64 items-center justify-center bg-white">
       <div className="h-8 w-8 animate-spin rounded-full border-2 border-accent border-t-transparent" />
     </div>
   );
@@ -43,7 +43,7 @@ export default function UrunDetayPage() {
   const allImages = [product.image_url, ...(product.images || [])].filter(Boolean) as string[];
 
   return (
-    <div className="bg-gray-50">
+    <div className="bg-white">
       {/* Breadcrumb */}
       <div className="bg-navy-950 px-4 py-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
@@ -61,7 +61,7 @@ export default function UrunDetayPage() {
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
           {/* Görsel galeri */}
           <div className="space-y-4">
-            <div className="relative overflow-hidden rounded-2xl bg-white shadow-sm border border-gray-100" style={{ aspectRatio: "1/1" }}>
+            <div className="relative overflow-hidden rounded-2xl bg-gray-50 border border-gray-100" style={{ aspectRatio: "1/1" }}>
               {allImages.length > 0
                 ? <Image src={allImages[activeImg]} alt={product.name} fill
                     className="object-contain p-8" sizes="(max-width: 1024px) 100vw, 50vw" priority />
@@ -70,14 +70,12 @@ export default function UrunDetayPage() {
                     <span className="text-8xl opacity-10">⚗️</span>
                   </div>
                 )}
-              {/* Standartlar badge */}
               {product.standards && (
                 <div className="absolute left-4 top-4 rounded-full bg-navy-950/90 px-3 py-1 text-xs font-semibold text-accent backdrop-blur-sm">
                   {product.standards.split(";")[0].trim()}
                 </div>
               )}
             </div>
-
             {allImages.length > 1 && (
               <div className="flex gap-2 overflow-x-auto pb-1">
                 {allImages.map((img, i) => (
@@ -101,12 +99,11 @@ export default function UrunDetayPage() {
             )}
             <h1 className="text-2xl font-black text-navy-950 sm:text-3xl leading-tight">{product.name}</h1>
 
-            {/* Teklif butonu */}
             <div className="mt-6">
               <QuoteButton productName={product.name} />
             </div>
 
-            {/* Öne çıkan özellikler - hep görünür */}
+            {/* Öne çıkan özellikler */}
             {product.highlights?.length > 0 && (
               <div className="mt-8 rounded-2xl bg-navy-950 p-5">
                 <p className="mb-3 text-xs font-bold uppercase tracking-widest text-accent">Öne Çıkan Özellikler</p>
@@ -145,7 +142,6 @@ export default function UrunDetayPage() {
                   <div className="prose text-sm text-zinc-600"
                     dangerouslySetInnerHTML={{ __html: product.description }} />
                 )}
-
                 {activeTab === "specs" && product.specs?.length > 0 && (
                   <div className="overflow-hidden rounded-xl border border-gray-100">
                     <table className="w-full text-sm">
@@ -160,12 +156,10 @@ export default function UrunDetayPage() {
                     </table>
                   </div>
                 )}
-
                 {activeTab === "kullanim" && product.use_cases?.length > 0 && (
                   <div className="flex flex-wrap gap-2">
                     {product.use_cases.map((u: string) => (
-                      <span key={u}
-                        className="rounded-full border border-gray-200 bg-white px-4 py-2 text-xs font-medium text-zinc-700 shadow-sm">
+                      <span key={u} className="rounded-full border border-gray-200 bg-white px-4 py-2 text-xs font-medium text-zinc-700 shadow-sm">
                         {u}
                       </span>
                     ))}
@@ -181,8 +175,7 @@ export default function UrunDetayPage() {
           <div className="mt-16">
             <div className="mb-6 flex items-center justify-between">
               <h2 className="text-xl font-black text-navy-950">{cat.name} — Diğer Ürünler</h2>
-              <Link href={`/urunler/${cat.slug}`}
-                className="text-xs font-semibold text-accent hover:text-accent-dark transition-colors">
+              <Link href={`/urunler/${cat.slug}`} className="text-xs font-semibold text-accent hover:text-accent-dark transition-colors">
                 Tümünü Gör →
               </Link>
             </div>
@@ -192,9 +185,7 @@ export default function UrunDetayPage() {
                   className="premium-card group overflow-hidden rounded-2xl bg-white shadow-sm border border-gray-100">
                   <div className="relative flex aspect-square items-center justify-center overflow-hidden bg-gray-50">
                     {r.image_url
-                      ? <Image src={r.image_url} alt={r.name} fill
-                          className="object-contain p-3 transition-transform duration-500 group-hover:scale-105"
-                          sizes="200px" />
+                      ? <Image src={r.image_url} alt={r.name} fill className="object-contain p-3 transition-transform duration-500 group-hover:scale-105" sizes="200px" />
                       : <span className="text-3xl opacity-20">⚗️</span>}
                   </div>
                   <div className="border-t border-gray-100 p-3">
