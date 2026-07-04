@@ -41,16 +41,7 @@ export default function StandartlarPage() {
   return (
     <div>
       {/* Hero */}
-      <section className="bg-navy-950 px-4 py-16 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <p className="mb-3 text-xs font-bold uppercase tracking-widest text-accent">Belgeler</p>
-          <h1 className="text-4xl font-black text-white sm:text-5xl">Standartlar</h1>
-          <div className="section-divider mt-4" />
-          <p className="mt-4 max-w-xl text-zinc-400">
-            Ürünlerimizin uyumlu olduğu uluslararası test ve kalite standartları.
-          </p>
-        </div>
-      </section>
+
 
       {/* Standart kartları */}
       <section className="bg-gray-50 px-4 py-16 sm:px-6 lg:px-8">

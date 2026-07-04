@@ -36,7 +36,7 @@ export default function HizmetlerimizPage() {
 
   return (
     <div className="bg-white">
-     <h1 className="mb-10 text-3xl font-black text-navy-950 sm:text-4xl">Hizmetlerimiz</h1>
+     
 
       <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8 space-y-20">
         {services.length === 0 ? (

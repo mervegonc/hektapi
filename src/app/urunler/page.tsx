@@ -15,16 +15,7 @@ export default function UrunlerPage() {
   return (
     <div>
       {/* Hero */}
-      <section className="bg-navy-950 px-4 py-16 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <p className="mb-3 text-xs font-bold uppercase tracking-widest text-accent">Ürün Portföyü</p>
-          <h1 className="text-4xl font-black text-white sm:text-5xl">Ürün Kategorileri</h1>
-          <div className="section-divider mt-4" />
-          <p className="mt-4 max-w-xl text-zinc-400">
-            Endüstriyel test ihtiyaçlarınız için geniş ürün yelpazemizi inceleyin.
-          </p>
-        </div>
-      </section>
+
 
       {/* Grid */}
       <section className="bg-gray-50 px-4 py-16 sm:px-6 lg:px-8">
