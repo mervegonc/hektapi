@@ -53,7 +53,11 @@ export default function IletisimPage() {
               </div>
               <div>
                 <p className="text-xs font-bold uppercase tracking-wider text-zinc-400 mb-1">Adres</p>
-                <p className="text-sm text-zinc-700 leading-relaxed">İvedik OSB 1462. Cadde No:24,<br />Yenimahalle / ANKARA</p>
+                <a href="https://maps.google.com/?q=İvedik+OSB+1462.+Cadde+No:24+Yenimahalle+Ankara"
+  target="_blank" rel="noreferrer"
+  className="text-sm text-zinc-700 leading-relaxed hover:text-accent transition-colors">
+  İvedik OSB 1462. Cadde No:24,<br />Yenimahalle / ANKARA
+</a>
               </div>
             </div>
 
