@@ -32,7 +32,7 @@ html { scroll-behavior: smooth; }
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", Helvetica, Arial, sans-serif;
   /* Koyu arka plan — sayfa geçişlerinde beyaz flash önlenir */
-  background: var(--navy-950);
+  background:#ffffff;
   color: var(--gray-900);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
