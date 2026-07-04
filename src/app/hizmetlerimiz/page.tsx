@@ -36,7 +36,7 @@ export default function HizmetlerimizPage() {
 
   return (
     <div>
-      <section className="bg-navy-950 px-4 py-16 sm:px-6 lg:px-8">
+      <section className="bg-white px-4 py-16 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <p className="mb-3 text-xs font-bold uppercase tracking-widest text-accent">Hizmetler</p>
           <h1 className="text-4xl font-black text-white sm:text-5xl">Hizmetlerimiz</h1>
