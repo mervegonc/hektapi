@@ -15,7 +15,7 @@ export default function Footer() {
                 <Image src="/logo.png" alt="Hektapi" fill className="object-contain" sizes="40px" />
               </div>
               <span className="text-xl font-black text-white">
-                HEKTAP<span className="text-accent">İ</span>
+                HEKTA<span className="text-accent">Pİ</span>
               </span>
             </Link>
             <p className="mt-4 text-sm leading-relaxed text-zinc-500">
@@ -100,7 +100,7 @@ export default function Footer() {
                 <span className="text-zinc-500">İvedik OSB 1462. Cadde No:24, Yenimahalle / ANKARA</span>
               </li>
               <li>
-                <a href="tel:+905346111271" className="flex items-center gap-3 transition-colors hover:text-accent">
+                <a href="https://wa.me/905346111271" className="flex items-center gap-3 transition-colors hover:text-accent">
                   <svg className="text-accent shrink-0" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.5 19.79 19.79 0 0 1 1.61 4.9 2 2 0 0 1 3.6 2.69h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 10.5a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 18z"/>
                   </svg>
