@@ -45,7 +45,7 @@ export default function UrunDetayPage() {
   return (
     <div className="bg-gray-50">
       {/* Breadcrumb */}
-      <div className="bg-white px-4 py-4 sm:px-6 lg:px-8">
+      <div className="bg-navy-950 px-4 py-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <nav className="flex items-center gap-2 text-xs text-zinc-500">
             <Link href="/urunler" className="hover:text-accent transition-colors">Ürünler</Link>

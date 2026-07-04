@@ -47,7 +47,8 @@ export default function HizmetlerimizPage() {
         </div>
       </section>
 
-      <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8 space-y-20">
+      <div className="bg-white">
+<div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8 space-y-20">
         {services.length === 0 ? (
           <p className="text-center text-zinc-400">Henüz hizmet eklenmemiş.</p>
         ) : (
@@ -75,7 +76,8 @@ export default function HizmetlerimizPage() {
             </div>
           ))
         )}
-      </div>
+</div>
+    </div>
     </div>
   );
 }

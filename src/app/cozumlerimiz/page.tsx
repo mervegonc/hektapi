@@ -40,7 +40,7 @@ export default function CozumlerimizPage() {
 
   return (
     <div>
-      <section className="bg-white px-4 py-16 sm:px-6 lg:px-8">
+      <section className="bg-navy-950 px-4 py-16 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <p className="mb-3 text-xs font-bold uppercase tracking-widest text-accent">Teknoloji Çözümleri</p>
           <h1 className="text-4xl font-black text-white sm:text-5xl">Çözümlerimiz</h1>
@@ -51,7 +51,8 @@ export default function CozumlerimizPage() {
         </div>
       </section>
 
-      <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8 space-y-20">
+     <div className="bg-white">
+<div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8 space-y-20">
         {solutions.length === 0 ? (
           <p className="text-center text-zinc-400">Henüz çözüm eklenmemiş.</p>
         ) : (
@@ -83,7 +84,8 @@ export default function CozumlerimizPage() {
             </div>
           ))
         )}
-      </div>
+</div>
+    </div>
     </div>
   );
 }
