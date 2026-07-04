@@ -32,7 +32,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <div className="min-h-screen bg-zinc-100" style={{ backgroundColor: "#f4f4f5" }}>
 
-      {/* Mobil overlay */}
+      {/* Mobil// İçerik overlay */}
       {sidebarOpen && (
         <div
           className="fixed inset-0 z-30 bg-black/50 lg:hidden"
