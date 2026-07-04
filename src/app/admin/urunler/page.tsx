@@ -65,8 +65,8 @@ export default function AdminUrunlerPage() {
         <table className="w-full text-sm">
           <thead className="bg-zinc-50 border-b border-zinc-200">
             <tr>
-              <th className="px-4 py-3 text-left font-semibold text-zinc-600">Ürün</th>
-              <th className="px-4 py-3 text-left font-semibold text-zinc-600">Kategoriler</th>
+        <th className="px-4 py-3 text-left font-semibold text-zinc-600">Ürün</th>
+<th className="px-4 py-3 text-left font-semibold text-zinc-600">Kategoriler</th>
 <th className="px-4 py-3 text-left font-semibold text-zinc-600">Durum</th>
 <th className="px-4 py-3 text-left font-semibold text-zinc-600">Eklenme</th>
 <th className="px-4 py-3 text-right font-semibold text-zinc-600">İşlemler</th>
