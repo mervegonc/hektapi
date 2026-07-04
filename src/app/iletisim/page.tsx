@@ -25,16 +25,7 @@ export default function IletisimPage() {
   return (
     <div className="bg-white">
       {/* Hero */}
-      <section className="bg-navy-950 px-4 py-16 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <p className="mb-3 text-xs font-bold uppercase tracking-widest text-accent">Bize Ulaşın</p>
-          <h1 className="text-4xl font-black text-white sm:text-5xl">İletişim</h1>
-          <div className="section-divider mt-4" />
-          <p className="mt-4 max-w-xl text-zinc-400">
-            Sorularınız ve teklif talepleriniz için bizimle iletişime geçin.
-          </p>
-        </div>
-      </section>
+
 
       <div className="mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:px-8">
 
