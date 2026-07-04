@@ -36,16 +36,7 @@ export default function HizmetlerimizPage() {
 
   return (
     <div className="bg-white">
-      <section className="bg-navy-950 px-4 py-16 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <p className="mb-3 text-xs font-bold uppercase tracking-widest text-accent">Hizmetler</p>
-          <h1 className="text-4xl font-black text-white sm:text-5xl">Hizmetlerimiz</h1>
-          <div className="section-divider mt-4" />
-          <p className="mt-4 max-w-xl text-zinc-400">
-            Hektapi olarak sunduğumuz mühendislik ve teknoloji hizmetleri.
-          </p>
-        </div>
-      </section>
+     <h1 className="mb-10 text-3xl font-black text-navy-950 sm:text-4xl">Hizmetlerimiz</h1>
 
       <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8 space-y-20">
         {services.length === 0 ? (
