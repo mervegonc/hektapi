@@ -92,25 +92,23 @@ export default function HomePage() {
             <h2 className="text-3xl font-black text-navy-950 sm:text-4xl">Neden Hektapi?</h2>
             <div className="section-divider mx-auto mt-4" />
           </div>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {[
-              { icon: "🔬", title: "Yüksek Hassasiyet", desc: "Tüm ürünlerimiz uluslararası standartlara uygun olarak tasarlanmış ve hassas ölçüm sonuçları için optimize edilmiştir." },
-              { icon: "🏆", title: "Sektör Deneyimi", desc: "20 yılı aşkın deneyimimizle endüstriyel test cihazları alanında güvenilir çözümler sunuyoruz." },
-              { icon: "🔧", title: "Teknik Destek", desc: "Satış sonrası teknik destek ve bakım hizmetlerimizle yanınızdayız. Uzman ekibimiz her zaman erişilebilir." },
-              { icon: "📋", title: "Uluslararası Standartlar", desc: "TS, EN, ASTM, BS ve ISO standartlarına tam uyumluluk. Her ürün sertifikalı ve onaylı." },
-              { icon: "⚡", title: "Hızlı Teslimat", desc: "Stok yönetimimiz ve lojistik ağımız sayesinde en kısa sürede teslimat sağlıyoruz." },
-              { icon: "💡", title: "Ar-Ge Odaklı", desc: "Sürekli Ar-Ge yatırımlarımızla teknolojinin ön saflarında yer alıyor, yenilikçi çözümler geliştiriyoruz." },
-            ].map((item) => (
-              <div key={item.title}
-                className="group rounded-2xl border border-gray-100 bg-gray-50 p-6 transition-all duration-300 hover:border-accent/30 hover:bg-white hover:shadow-lg">
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-navy-950 text-2xl">
-                  {item.icon}
-                </div>
-                <h3 className="mb-2 font-bold text-navy-950">{item.title}</h3>
-                <p className="text-sm leading-relaxed text-zinc-500">{item.desc}</p>
-              </div>
-            ))}
-          </div>
+<div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+  {[
+    { num: "01", title: "Yüksek Hassasiyet", desc: "Tüm ürünlerimiz uluslararası standartlara uygun olarak tasarlanmış ve hassas ölçüm sonuçları için optimize edilmiştir." },
+    { num: "02", title: "Sektör Deneyimi", desc: "20 yılı aşkın deneyimimizle endüstriyel test cihazları alanında güvenilir çözümler sunuyoruz." },
+    { num: "03", title: "Teknik Destek", desc: "Satış sonrası teknik destek ve bakım hizmetlerimizle yanınızdayız. Uzman ekibimiz her zaman erişilebilir." },
+    { num: "04", title: "Uluslararası Standartlar", desc: "TS, EN, ASTM, BS ve ISO standartlarına tam uyumluluk. Her ürün sertifikalı ve onaylı." },
+    { num: "05", title: "Hızlı Teslimat", desc: "Stok yönetimimiz ve lojistik ağımız sayesinde en kısa sürede teslimat sağlıyoruz." },
+    { num: "06", title: "Ar-Ge Odaklı", desc: "Sürekli Ar-Ge yatırımlarımızla teknolojinin ön saflarında yer alıyor, yenilikçi çözümler geliştiriyoruz." },
+  ].map((item) => (
+    <div key={item.num}
+      className="group rounded-2xl border border-gray-100 bg-gray-50 p-6 transition-all duration-300 hover:border-accent/30 hover:bg-white hover:shadow-lg">
+      <p className="mb-3 text-4xl font-black text-navy-950/10 group-hover:text-accent/20 transition-colors">{item.num}</p>
+      <h3 className="mb-2 font-bold text-navy-950">{item.title}</h3>
+      <p className="text-sm leading-relaxed text-zinc-500">{item.desc}</p>
+    </div>
+  ))}
+</div>
         </div>
       </section>
 
