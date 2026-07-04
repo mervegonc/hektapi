@@ -37,11 +37,12 @@ export default function IletisimPage() {
       </section>
 
       <div className="mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:px-8">
+
         {/* Sol — bilgiler */}
         <div>
           <h2 className="mb-8 text-2xl font-black text-navy-950">Bizimle iletişime geçin</h2>
 
-          <div className="space-y-5">
+          <div className="space-y-6">
             {/* Adres */}
             <div className="flex items-start gap-4">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-navy-950">
@@ -52,7 +53,7 @@ export default function IletisimPage() {
               </div>
               <div>
                 <p className="text-xs font-bold uppercase tracking-wider text-zinc-400 mb-1">Adres</p>
-                <p className="text-sm text-zinc-700">İvedik OSB 1462. Cadde No:24,<br />Yenimahalle / ANKARA</p>
+                <p className="text-sm text-zinc-700 leading-relaxed">İvedik OSB 1462. Cadde No:24,<br />Yenimahalle / ANKARA</p>
               </div>
             </div>
 
@@ -71,7 +72,7 @@ export default function IletisimPage() {
               </div>
             </div>
 
-            {/* Email */}
+            {/* E-posta */}
             <div className="flex items-start gap-4">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-navy-950">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f5a623" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -87,35 +88,36 @@ export default function IletisimPage() {
               </div>
             </div>
 
-            {/* Sosyal */}
+            {/* Sosyal medya — LinkedIn ve Instagram alt alta */}
             <div className="flex items-start gap-4">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-navy-950">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f5a623" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
                 </svg>
               </div>
-              <div>
+              <div className="space-y-2">
                 <p className="text-xs font-bold uppercase tracking-wider text-zinc-400 mb-2">Sosyal Medya</p>
-                <div className="flex gap-3">
-                  <a href="https://www.linkedin.com/company/hektapi̇-mühendi̇sli̇k-san-ve-ti̇c-ltd-şti̇/"
-                    target="_blank" rel="noreferrer"
-                    className="flex h-9 w-9 items-center justify-center rounded-lg bg-navy-950 text-white transition-all hover:bg-accent hover:text-navy-950">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
-                      <rect x="2" y="9" width="4" height="12"/>
-                      <circle cx="4" cy="4" r="2"/>
-                    </svg>
-                  </a>
-                  <a href="https://www.instagram.com/hektapi.muhendislik/"
-                    target="_blank" rel="noreferrer"
-                    className="flex h-9 w-9 items-center justify-center rounded-lg bg-navy-950 text-white transition-all hover:bg-accent hover:text-navy-950">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <rect x="2" y="2" width="20" height="20" rx="5"/>
-                      <circle cx="12" cy="12" r="4"/>
-                      <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
-                    </svg>
-                  </a>
-                </div>
+                <a href="https://www.linkedin.com/company/hektapi̇-mühendi̇sli̇k-san-ve-ti̇c-ltd-şti̇/"
+                  target="_blank" rel="noreferrer"
+                  className="flex items-center gap-2 text-sm font-semibold text-navy-950 hover:text-accent transition-colors">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                    <rect x="2" y="9" width="4" height="12"/>
+                    <circle cx="4" cy="4" r="2"/>
+                  </svg>
+                  LinkedIn
+                </a>
+                <a href="https://www.instagram.com/hektapi.muhendislik/"
+                  target="_blank" rel="noreferrer"
+                  className="flex items-center gap-2 text-sm font-semibold text-navy-950 hover:text-accent transition-colors">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5"/>
+                    <circle cx="12" cy="12" r="4"/>
+                    <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+                  </svg>
+                  Instagram
+                </a>
               </div>
             </div>
           </div>
@@ -162,7 +164,7 @@ export default function IletisimPage() {
                   <div key={name}>
                     <label className="block text-xs font-semibold text-zinc-600 mb-1.5">{label}</label>
                     <input name={name} type={type || "text"} required={required}
-                      className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-zinc-900 focus:border-navy-700 focus:bg-white focus:outline-none transition-colors" />
+                      className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-zinc-900 placeholder-zinc-400 focus:border-navy-700 focus:bg-white focus:outline-none transition-colors" />
                   </div>
                 ))}
                 <div className="col-span-2">
