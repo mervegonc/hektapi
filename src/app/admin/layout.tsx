@@ -57,7 +57,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {sidebarOpen && (
         <div className="fixed inset-0 z-30 bg-black/60 lg:hidden" onClick={() => setSidebarOpen(false)} />
       )}
-      <aside className={`fixed top-0 left-0 z-40 h-screen w-64 bg-navy-950 text-white flex flex-col transform transition-transform duration-300 ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0`}>
+     <aside className={`fixed top-0 left-0 z-40 w-64 bg-navy-950 text-white flex flex-col transform transition-transform duration-300 ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0`} style={{ height: "100dvh" }}>
         <div className="px-5 py-5 border-b border-navy-800 flex items-center justify-between">
           <div>
             <p className="font-bold text-lg">HEKTAPİ</p>

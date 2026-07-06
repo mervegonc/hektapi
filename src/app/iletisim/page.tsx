@@ -135,7 +135,7 @@ export default function IletisimPage() {
         </div>
 
         {/* Sağ — form */}
-        <div id="iletisim-form">
+       <div id="iletisim-form" style={{ scrollMarginTop: "80px" }}> 
           {status === "sent" ? (
             <div className="rounded-2xl bg-navy-950 p-10 text-center">
               <div className="mb-4 flex h-16 w-16 mx-auto items-center justify-center rounded-full bg-accent/20">
