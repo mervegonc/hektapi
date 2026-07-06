@@ -123,14 +123,18 @@ export default function Footer() {
             </ul>
 
             {/* Teklif Al — scroll fix */}
-            <Link href="/iletisim"
-              onClick={() => window.scrollTo({ top: 0 })}
-              className="mt-6 inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-xs font-bold text-navy-950 transition-all hover:bg-accent-light">
-              Teklif Al
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </Link>
+<Link href="/iletisim#iletisim-form"
+  onClick={() => {
+    setTimeout(() => {
+      document.getElementById("iletisim-form")?.scrollIntoView({ behavior: "smooth" });
+    }, 300);
+  }}
+  className="mt-6 inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-xs font-bold text-navy-950 transition-all hover:bg-accent-light">
+  Teklif Al
+  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+    <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+</Link>
           </div>
         </div>
       </div>

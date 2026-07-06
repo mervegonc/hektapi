@@ -135,7 +135,7 @@ export default function IletisimPage() {
         </div>
 
         {/* Sağ — form */}
-        <div>
+        <div id="iletisim-form">
           {status === "sent" ? (
             <div className="rounded-2xl bg-navy-950 p-10 text-center">
               <div className="mb-4 flex h-16 w-16 mx-auto items-center justify-center rounded-full bg-accent/20">
@@ -147,7 +147,7 @@ export default function IletisimPage() {
               <p className="mt-2 text-sm text-zinc-400">En kısa sürede sizinle iletişime geçeceğiz.</p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="rounded-2xl border border-gray-100 bg-white p-8 shadow-sm">
+           <form onSubmit={handleSubmit} className="rounded-2xl border border-gray-100 bg-white p-8 shadow-sm">
               <h2 className="mb-6 text-2xl font-black text-navy-950">Mesaj Gönderin</h2>
               <div className="grid grid-cols-2 gap-4">
                 {[
