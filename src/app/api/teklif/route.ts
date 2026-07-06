@@ -98,7 +98,7 @@ export async function POST(request: NextRequest) {
         const resend = new Resend(apiKey);
         const to = process.env.QUOTE_NOTIFICATION_EMAIL || "info@hektapi.com.tr";
         await resend.emails.send({
-          from: "Hektapi Website <onboarding@resend.dev>",
+          from: "Hektapi <noreply@hektapi.com.tr>",
           to,
           replyTo: email,
           subject: `🔔 Yeni Teklif: ${productName}`,
