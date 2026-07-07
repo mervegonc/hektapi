@@ -187,10 +187,7 @@ export default function TaleplerPage() {
           <div className="flex items-start justify-between">
             <h2 className="font-bold text-navy-950">Talep Detayı</h2>
             <button onClick={() => setSelected(null)} className="text-zinc-400 hover:text-zinc-700">✕</button>
-          <button onClick={() => handleDelete(selected.id)}
-  className="mt-2 w-full rounded-lg border border-red-200 px-3 py-2 text-xs font-bold text-red-600 hover:bg-red-50 transition-colors">
-  Talebi Sil
-</button>
+          
           
           </div>
 
@@ -282,6 +279,11 @@ export default function TaleplerPage() {
                 Son yanıt: {new Date(selected.replied_at).toLocaleDateString("tr-TR")}
               </p>
             )}
+
+            <button onClick={() => handleDelete(selected.id)}
+  className="mt-2 w-full rounded-lg border border-red-200 px-3 py-2 text-xs font-bold text-red-600 hover:bg-red-50 transition-colors">
+  Talebi Sil
+</button>
           </div>
         </div>
       )}
