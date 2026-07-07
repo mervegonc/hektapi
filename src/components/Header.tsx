@@ -95,7 +95,7 @@ export default function Header() {
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden md:flex items-center flex-1 gap-0.5">
+        <nav className="hidden md:flex items-center flex-1 justify-end gap-0.5">
           <Link href="/" className={linkClass(isActive("/"))}>
             Anasayfa
             {isActive("/") && activeLine}
