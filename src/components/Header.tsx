@@ -169,7 +169,7 @@ export default function Header() {
           </Link>
 
           <Link href="/standartlar" className={linkClass(isActive("/standartlar"))}>
-            Standartlar
+            Sertifikalar
             {isActive("/standartlar") && activeLine}
           </Link>
 
