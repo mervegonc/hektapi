@@ -19,7 +19,7 @@ export default function HomePage() {
             {[
               { value: "20+", label: "Yıllık Deneyim" },
               { value: "500+", label: "Tamamlanan Proje" },
-              { value: "7", label: "Ürün Kategorisi" },
+              { value: `${categories.length}`, label: "Ürün Kategorisi" },
               { value: "100%", label: "Müşteri Memnuniyeti" },
             ].map((stat) => (
               <div key={stat.label} className="px-6 py-5 text-center">
