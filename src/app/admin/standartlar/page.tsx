@@ -82,13 +82,13 @@ export default function AdminStandartlarPage() {
     <div>
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-navy-950">Standartlar</h1>
-          <p className="text-sm text-zinc-500 mt-1">PDF standart belgelerini yönetin.</p>
+          <h1 className="text-2xl font-bold text-navy-950">Sertifikalar</h1>
+          <p className="text-sm text-zinc-500 mt-1">PDF sertifika belgelerini yönetin.</p>
         </div>
         <button
           onClick={() => setEditing({ title: "", description: "", category: "ISO", order: standards.length, is_active: true })}
           className="rounded-lg bg-navy-900 px-5 py-2.5 text-sm font-semibold text-white hover:bg-navy-800 transition-colors">
-          + Yeni Standart
+          + Yeni Sertifika
         </button>
       </div>
 
