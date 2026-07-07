@@ -4,15 +4,32 @@ import Link from "next/link";
 import Image from "next/image";
 import { useSite } from "@/context/SiteContext";
 import HeroSlider from "@/components/HeroSlider";
+import { useState, useEffect, useRef } from "react";
+
 
 export default function HomePage() {
   const { categories } = useSite();
+
+const [catCount, setCatCount] = useState(0);
+
+useEffect(() => {
+  if (categories.length === 0) return;
+  let count = 0;
+  const timer = setInterval(() => {
+    count++;
+    setCatCount(count);
+    if (count >= categories.length) clearInterval(timer);
+  }, 100);
+  return () => clearInterval(timer);
+}, [categories.length]);
+
 
   return (
     <div>
       <HeroSlider />
 
       {/* Stats bar */}
+      
       <section className="bg-navy-950 border-b border-navy-800">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 divide-x divide-navy-800 md:grid-cols-4">

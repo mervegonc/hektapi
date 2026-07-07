@@ -90,7 +90,7 @@ export default function Header() {
             <Image src="/logo.png" alt="Hektapi" fill className="object-contain" sizes="36px" priority />
           </div>
           <span className="text-lg font-black tracking-wider text-white">
-            HEKTAP<span className="text-accent">İ</span>
+            HEKTA<span className="text-accent">Pİ</span>
           </span>
         </Link>
 
