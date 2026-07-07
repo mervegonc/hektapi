@@ -1,10 +1,18 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect } from "react";
-import { usePathname } from "next/navigation";
+import { useState, useEffect, useRef } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { useSite } from "@/context/SiteContext";
 import { createClient } from "@/lib/supabase/client";
+
+interface Product {
+  id: string;
+  name: string;
+  slug: string;
+  category_ids: string[];
+  image_url: string | null;
+}
 
 export default function Header() {
   const { categories } = useSite();
@@ -12,7 +20,13 @@ export default function Header() {
   const [kurumOpen, setKurumOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState<Product[]>([]);
+  const [searching, setSearching] = useState(false);
+  const searchRef = useRef<HTMLInputElement>(null);
   const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -20,10 +34,39 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Mobil menü sayfa değişince kapansın
   useEffect(() => {
     setMobileOpen(false);
   }, [pathname]);
+
+  useEffect(() => {
+    if (searchOpen) {
+      setTimeout(() => searchRef.current?.focus(), 100);
+    } else {
+      setSearchQuery("");
+      setSearchResults([]);
+    }
+  }, [searchOpen]);
+
+  useEffect(() => {
+    if (!searchQuery.trim()) { setSearchResults([]); return; }
+    setSearching(true);
+    const timer = setTimeout(async () => {
+      const { data } = await createClient()
+        .from("products")
+        .select("id, name, slug, category_ids, image_url")
+        .ilike("name", `%${searchQuery}%`)
+        .eq("is_active", true)
+        .limit(6);
+      setSearchResults(data || []);
+      setSearching(false);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  function getCategorySlug(categoryIds: string[]) {
+    const cat = categories.find(c => categoryIds.includes(c.id));
+    return cat?.slug || "urunler";
+  }
 
   const isActive = (href: string) => pathname === href;
   const isProductsActive = pathname.startsWith("/urunler");
@@ -41,25 +84,23 @@ export default function Header() {
     }`}>
       <div className="mx-auto flex max-w-7xl items-center px-4 py-2 sm:px-6 lg:px-8 gap-1">
 
-        {/* Logo — her zaman görünür, image priority */}
+        {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5 group shrink-0 mr-3">
           <div className="relative h-9 w-9 shrink-0">
             <Image src="/logo.png" alt="Hektapi" fill className="object-contain" sizes="36px" priority />
           </div>
           <span className="text-lg font-black tracking-wider text-white">
-            HEKTA<span className="text-accent">Pİ</span>
+            HEKTAP<span className="text-accent">İ</span>
           </span>
         </Link>
 
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center flex-1 gap-0.5">
-
           <Link href="/" className={linkClass(isActive("/"))}>
             Anasayfa
             {isActive("/") && activeLine}
           </Link>
 
-          {/* Kurumsal */}
           <div className="relative flex items-center"
             onMouseEnter={() => setKurumOpen(true)}
             onMouseLeave={() => setKurumOpen(false)}>
@@ -90,7 +131,6 @@ export default function Header() {
             )}
           </div>
 
-          {/* Ürünler */}
           <div className="relative flex items-center"
             onMouseEnter={() => setProductsOpen(true)}
             onMouseLeave={() => setProductsOpen(false)}>
@@ -133,24 +173,92 @@ export default function Header() {
             {isActive("/standartlar") && activeLine}
           </Link>
 
+          {/* Arama ikonu */}
+          <button onClick={() => setSearchOpen(true)}
+            className="ml-1 flex h-10 w-10 items-center justify-center rounded-lg text-zinc-300 hover:bg-white/10 hover:text-white transition-colors">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="M21 21l-4.35-4.35" strokeLinecap="round"/>
+            </svg>
+          </button>
+
           <Link href="/iletisim"
-            className="ml-auto rounded-full bg-accent h-10 px-5 flex items-center text-sm font-bold text-navy-950 transition-all hover:bg-accent-light hover:shadow-lg hover:shadow-accent/30 whitespace-nowrap">
+            className="ml-1 rounded-full bg-accent h-10 px-5 flex items-center text-sm font-bold text-navy-950 transition-all hover:bg-accent-light hover:shadow-lg hover:shadow-accent/30 whitespace-nowrap">
             İletişim
           </Link>
         </nav>
 
-        {/* Mobile burger */}
-        <button className="md:hidden ml-auto rounded-lg p-2 text-white hover:bg-white/10"
-          onClick={() => setMobileOpen(!mobileOpen)}>
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            {mobileOpen
-              ? <path d="M6 6l12 12M6 18L18 6" strokeLinecap="round"/>
-              : <path d="M3 6h18M3 12h18M3 18h18" strokeLinecap="round"/>}
-          </svg>
-        </button>
+        {/* Mobile buttons */}
+        <div className="md:hidden ml-auto flex items-center gap-2">
+          <button onClick={() => setSearchOpen(true)}
+            className="rounded-lg p-2 text-white hover:bg-white/10">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="M21 21l-4.35-4.35" strokeLinecap="round"/>
+            </svg>
+          </button>
+          <button className="rounded-lg p-2 text-white hover:bg-white/10"
+            onClick={() => setMobileOpen(!mobileOpen)}>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              {mobileOpen
+                ? <path d="M6 6l12 12M6 18L18 6" strokeLinecap="round"/>
+                : <path d="M3 6h18M3 12h18M3 18h18" strokeLinecap="round"/>}
+            </svg>
+          </button>
+        </div>
       </div>
 
       <div className="h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
+
+      {/* Arama modalı */}
+      {searchOpen && (
+        <div className="fixed inset-0 z-50 bg-black/60 p-4 pt-20" onClick={() => setSearchOpen(false)}>
+          <div className="mx-auto max-w-2xl" onClick={e => e.stopPropagation()}>
+            <div className="relative">
+              <svg className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="M21 21l-4.35-4.35" strokeLinecap="round"/>
+              </svg>
+              <input ref={searchRef} value={searchQuery} onChange={e => setSearchQuery(e.target.value)}
+                placeholder="Ürün ara..."
+                className="w-full rounded-2xl bg-white pl-11 pr-12 py-4 text-navy-950 text-lg focus:outline-none shadow-2xl" />
+              <button onClick={() => setSearchOpen(false)}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M6 6l12 12M6 18L18 6" strokeLinecap="round"/>
+                </svg>
+              </button>
+            </div>
+
+            {/* Sonuçlar */}
+            {searchQuery && (
+              <div className="mt-2 rounded-2xl bg-white overflow-hidden shadow-2xl">
+                {searching ? (
+                  <div className="p-6 text-center text-zinc-400 text-sm">Aranıyor...</div>
+                ) : searchResults.length === 0 ? (
+                  <div className="p-6 text-center text-zinc-400 text-sm">Sonuç bulunamadı.</div>
+                ) : (
+                  <div>
+                    {searchResults.map(p => (
+                      <Link key={p.id}
+                        href={`/urunler/${getCategorySlug(p.category_ids)}/${p.slug}`}
+                        onClick={() => setSearchOpen(false)}
+                        className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-0">
+                        <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg bg-gray-100">
+                          {p.image_url && (
+                            <Image src={p.image_url} alt={p.name} fill className="object-contain p-1" sizes="40px" />
+                          )}
+                        </div>
+                        <span className="text-sm font-medium text-navy-950">{p.name}</span>
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Mobile menu */}
       {mobileOpen && (
@@ -168,7 +276,8 @@ export default function Header() {
             ].map(({ href, label }) => (
               <Link key={href} href={href}
                 className={`block rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors
-                  ${pathname === href ? "bg-accent/10 text-accent" : "text-zinc-300 hover:bg-white/10 hover:text-white"}`}>
+                  ${pathname === href ? "bg-accent/10 text-accent" : "text-zinc-300 hover:bg-white/10 hover:text-white"}`}
+                onClick={() => setMobileOpen(false)}>
                 {label}
               </Link>
             ))}
@@ -178,7 +287,8 @@ export default function Header() {
                 {categories.map((cat) => (
                   <Link key={cat.id} href={`/urunler/${cat.slug}`}
                     className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm transition-colors
-                      ${pathname === `/urunler/${cat.slug}` ? "text-accent" : "text-zinc-400 hover:bg-white/10 hover:text-white"}`}>
+                      ${pathname === `/urunler/${cat.slug}` ? "text-accent" : "text-zinc-400 hover:bg-white/10 hover:text-white"}`}
+                    onClick={() => setMobileOpen(false)}>
                     <span className="h-1.5 w-1.5 rounded-full bg-accent shrink-0" />
                     {cat.name}
                   </Link>
