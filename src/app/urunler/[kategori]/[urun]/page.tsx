@@ -13,7 +13,7 @@ export default function UrunDetayPage() {
   const [product, setProduct] = useState<Product | null>(null);
   const [related, setRelated] = useState<Product[]>([]);
   const [activeImg, setActiveImg] = useState(0);
-  const [activeTab, setActiveTab] = useState<"aciklama" | "specs" | "kullanim">("aciklama");
+  const [activeTab, setActiveTab] = useState<"aciklama" | "specs" | "standartlar" | "kullanim">("aciklama");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -119,12 +119,27 @@ export default function UrunDetayPage() {
             )}
 
             {/* Tabs */}
+
+{activeTab === "standartlar" && product.standards && (
+  <div className="space-y-2">
+    {product.standards.split(";").map((s: string) => s.trim()).filter(Boolean).map((std: string) => (
+      <div key={std} className="flex items-center gap-3 rounded-xl border border-gray-100 bg-gray-50 px-4 py-3">
+        <span className="h-2 w-2 rounded-full bg-accent shrink-0" />
+        <span className="text-sm font-medium text-navy-950">{std}</span>
+      </div>
+    ))}
+  </div>
+)}
+
+
+
             <div className="mt-6">
               <div className="flex gap-1 rounded-xl bg-gray-100 p-1">
                 {[
                   { key: "aciklama", label: "Açıklama" },
                   { key: "specs", label: "Teknik Özellikler" },
-                  ...(product.use_cases?.length > 0 ? [{ key: "kullanim", label: "Kullanım" }] : []),
+...(product.standards ? [{ key: "standartlar", label: "Standartlar" }] : []),
+...(product.use_cases?.length > 0 ? [{ key: "kullanim", label: "Kullanım" }] : []),
                 ].map((tab) => (
                   <button key={tab.key} onClick={() => setActiveTab(tab.key as typeof activeTab)}
                     className={`flex-1 rounded-lg px-3 py-2 text-xs font-bold transition-all ${
