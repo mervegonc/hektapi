@@ -42,9 +42,15 @@ export default function UrunDetayPage() {
 
   const allImages = [product.image_url, ...(product.images || [])].filter(Boolean) as string[];
 
+  const tabs = [
+    { key: "aciklama", label: "Açıklama", show: !!product.description },
+    { key: "specs", label: "Teknik Özellikler", show: product.specs?.length > 0 },
+    { key: "standartlar", label: "Standartlar", show: !!product.standards },
+    { key: "kullanim", label: "Kullanım Alanları", show: product.use_cases?.length > 0 },
+  ].filter(t => t.show);
+
   return (
     <div className="bg-white">
-      {/* Breadcrumb */}
       <div className="bg-navy-950 px-4 py-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <nav className="flex items-center gap-2 text-xs text-zinc-500">
@@ -59,30 +65,17 @@ export default function UrunDetayPage() {
 
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
-          {/* Görsel galeri */}
           <div className="space-y-4">
             <div className="relative overflow-hidden rounded-2xl bg-gray-50 border border-gray-100" style={{ aspectRatio: "1/1" }}>
               {allImages.length > 0
-                ? <Image src={allImages[activeImg]} alt={product.name} fill
-                    className="object-contain p-8" sizes="(max-width: 1024px) 100vw, 50vw" priority />
-                : (
-                  <div className="flex h-full items-center justify-center">
-                    <span className="text-8xl opacity-10">⚗️</span>
-                  </div>
-                )}
-              {product.standards && (
-                <div className="absolute left-4 top-4 rounded-full bg-navy-950/90 px-3 py-1 text-xs font-semibold text-accent backdrop-blur-sm">
-                  {product.standards.split(";")[0].trim()}
-                </div>
-              )}
+                ? <Image src={allImages[activeImg]} alt={product.name} fill className="object-contain p-8" sizes="(max-width: 1024px) 100vw, 50vw" priority />
+                : <div className="flex h-full items-center justify-center"><span className="text-8xl opacity-10">⚗️</span></div>}
             </div>
             {allImages.length > 1 && (
               <div className="flex gap-2 overflow-x-auto pb-1">
                 {allImages.map((img, i) => (
                   <button key={img} onClick={() => setActiveImg(i)}
-                    className={`relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border-2 transition-all ${
-                      i === activeImg ? "border-accent shadow-md shadow-accent/20" : "border-gray-200 hover:border-gray-300"
-                    }`}>
+                    className={`relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border-2 transition-all ${i === activeImg ? "border-accent shadow-md shadow-accent/20" : "border-gray-200 hover:border-gray-300"}`}>
                     <Image src={img} alt="" fill className="object-contain bg-white p-1" sizes="64px" />
                   </button>
                 ))}
@@ -90,20 +83,10 @@ export default function UrunDetayPage() {
             )}
           </div>
 
-          {/* Bilgi */}
           <div>
-            {product.standards && (
-              <p className="mb-2 text-xs font-bold uppercase tracking-widest text-zinc-400">
-                {product.standards}
-              </p>
-            )}
             <h1 className="text-2xl font-black text-navy-950 sm:text-3xl leading-tight">{product.name}</h1>
+            <div className="mt-6"><QuoteButton productName={product.name} /></div>
 
-            <div className="mt-6">
-              <QuoteButton productName={product.name} />
-            </div>
-
-            {/* Öne çıkan özellikler */}
             {product.highlights?.length > 0 && (
               <div className="mt-8 rounded-2xl bg-navy-950 p-5">
                 <p className="mb-3 text-xs font-bold uppercase tracking-widest text-accent">Öne Çıkan Özellikler</p>
@@ -118,78 +101,62 @@ export default function UrunDetayPage() {
               </div>
             )}
 
-            {/* Tabs */}
-
-{activeTab === "standartlar" && product.standards && (
-  <div className="space-y-2">
-    {product.standards.split(";").map((s: string) => s.trim()).filter(Boolean).map((std: string) => (
-      <div key={std} className="flex items-center gap-3 rounded-xl border border-gray-100 bg-gray-50 px-4 py-3">
-        <span className="h-2 w-2 rounded-full bg-accent shrink-0" />
-        <span className="text-sm font-medium text-navy-950">{std}</span>
-      </div>
-    ))}
-  </div>
-)}
-            <div className="mt-6">
-              <div className="flex gap-1 rounded-xl bg-gray-100 p-1">
-                {[
-                  { key: "aciklama", label: "Açıklama" },
-                  { key: "specs", label: "Teknik Özellikler" },
-...(product.standards ? [{ key: "standartlar", label: "Standartlar" }] : []),
-...(product.use_cases?.length > 0 ? [{ key: "kullanim", label: "Kullanım" }] : []),
-                ].map((tab) => (
-                  <button key={tab.key} onClick={() => setActiveTab(tab.key as typeof activeTab)}
-                    className={`flex-1 rounded-lg px-3 py-2 text-xs font-bold transition-all ${
-                      activeTab === tab.key
-                        ? "bg-white text-navy-950 shadow-sm"
-                        : "text-zinc-500 hover:text-zinc-700"
-                    }`}>
-                    {tab.label}
-                  </button>
-                ))}
+            {tabs.length > 0 && (
+              <div className="mt-6">
+                <div className="flex gap-1 rounded-xl bg-gray-100 p-1 overflow-x-auto">
+                  {tabs.map((tab) => (
+                    <button key={tab.key} onClick={() => setActiveTab(tab.key as typeof activeTab)}
+                      className={`flex-1 rounded-lg px-3 py-2 text-xs font-bold transition-all whitespace-nowrap ${activeTab === tab.key ? "bg-white text-navy-950 shadow-sm" : "text-zinc-500 hover:text-zinc-700"}`}>
+                      {tab.label}
+                    </button>
+                  ))}
+                </div>
+                <div className="mt-4">
+                  {activeTab === "aciklama" && product.description && (
+                    <div className="prose text-sm text-zinc-600" dangerouslySetInnerHTML={{ __html: product.description }} />
+                  )}
+                  {activeTab === "specs" && product.specs?.length > 0 && (
+                    <div className="overflow-hidden rounded-xl border border-gray-100">
+                      <table className="w-full text-sm">
+                        <tbody>
+                          {product.specs.map((spec: ProductSpec, i: number) => (
+                            <tr key={spec.label} className={i % 2 === 0 ? "bg-gray-50" : "bg-white"}>
+                              <td className="w-2/5 border-b border-gray-100 px-4 py-3 font-semibold text-navy-950">{spec.label}</td>
+                              <td className="border-b border-gray-100 px-4 py-3 text-zinc-600">{spec.value}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                  {activeTab === "standartlar" && product.standards && (
+                    <div className="space-y-2">
+                      {product.standards.split(";").map((s: string) => s.trim()).filter(Boolean).map((std: string) => (
+                        <div key={std} className="flex items-center gap-3 rounded-xl border border-gray-100 bg-gray-50 px-4 py-3">
+                          <span className="h-2 w-2 rounded-full bg-accent shrink-0" />
+                          <span className="text-sm font-medium text-navy-950">{std}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {activeTab === "kullanim" && product.use_cases?.length > 0 && (
+                    <div className="flex flex-wrap gap-2">
+                      {product.use_cases.map((u: string) => (
+                        <span key={u} className="rounded-full border border-gray-200 bg-white px-4 py-2 text-xs font-medium text-zinc-700 shadow-sm">{u}</span>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
-
-              <div className="mt-4">
-                {activeTab === "aciklama" && product.description && (
-                  <div className="prose text-sm text-zinc-600"
-                    dangerouslySetInnerHTML={{ __html: product.description }} />
-                )}
-                {activeTab === "specs" && product.specs?.length > 0 && (
-                  <div className="overflow-hidden rounded-xl border border-gray-100">
-                    <table className="w-full text-sm">
-                      <tbody>
-                        {product.specs.map((spec: ProductSpec, i: number) => (
-                          <tr key={spec.label} className={i % 2 === 0 ? "bg-gray-50" : "bg-white"}>
-                            <td className="w-2/5 border-b border-gray-100 px-4 py-3 font-semibold text-navy-950">{spec.label}</td>
-                            <td className="border-b border-gray-100 px-4 py-3 text-zinc-600">{spec.value}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                )}
-                {activeTab === "kullanim" && product.use_cases?.length > 0 && (
-                  <div className="flex flex-wrap gap-2">
-                    {product.use_cases.map((u: string) => (
-                      <span key={u} className="rounded-full border border-gray-200 bg-white px-4 py-2 text-xs font-medium text-zinc-700 shadow-sm">
-                        {u}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
+            )}
           </div>
         </div>
 
-        {/* İlgili ürünler */}
         {related.length > 0 && (
           <div className="mt-16">
             <div className="mb-6 flex items-center justify-between">
               <h2 className="text-xl font-black text-navy-950">{cat.name} — Diğer Ürünler</h2>
-              <Link href={`/urunler/${cat.slug}`} className="text-xs font-semibold text-accent hover:text-accent-dark transition-colors">
-                Tümünü Gör →
-              </Link>
+              <Link href={`/urunler/${cat.slug}`} className="text-xs font-semibold text-accent hover:text-accent-dark transition-colors">Tümünü Gör →</Link>
             </div>
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
               {related.map((r) => (
