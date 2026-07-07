@@ -130,9 +130,6 @@ export default function UrunDetayPage() {
     ))}
   </div>
 )}
-
-
-
             <div className="mt-6">
               <div className="flex gap-1 rounded-xl bg-gray-100 p-1">
                 {[
