@@ -102,6 +102,12 @@ export default function TaleplerPage() {
     }
     setSending(false);
   }
+  async function handleDelete(id: string) {
+  if (!confirm("Bu talebi kalıcı olarak silmek istediğinize emin misiniz?")) return;
+  await createClient().from("inquiries").delete().eq("id", id);
+  setSelected(null);
+  load();
+}
 
   return (
     <div className="flex gap-6 h-full">
@@ -181,6 +187,11 @@ export default function TaleplerPage() {
           <div className="flex items-start justify-between">
             <h2 className="font-bold text-navy-950">Talep Detayı</h2>
             <button onClick={() => setSelected(null)} className="text-zinc-400 hover:text-zinc-700">✕</button>
+          <button onClick={() => handleDelete(selected.id)}
+  className="mt-2 w-full rounded-lg border border-red-200 px-3 py-2 text-xs font-bold text-red-600 hover:bg-red-50 transition-colors">
+  Talebi Sil
+</button>
+          
           </div>
 
           {/* Müşteri bilgileri */}
