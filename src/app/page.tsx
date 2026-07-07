@@ -19,8 +19,8 @@ export default function HomePage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 divide-x divide-navy-800 md:grid-cols-4">
             {[
-              { value: "20+", label: "Yıllık Deneyim" },
-              { value: "500+", label: "Tamamlanan Proje" },
+              { value: "10+", label: "Yıllık Deneyim" },
+              { value: "50+", label: "Tamamlanan Proje" },
               { value: `${categories.length}`, label: "Ürün Kategorisi" },
               { value: "100%", label: "Müşteri Memnuniyeti" },
             ].map((stat) => (
