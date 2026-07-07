@@ -16,7 +16,13 @@ export default function UrunDetayPage() {
   const [activeTab, setActiveTab] = useState<"aciklama" | "specs" | "standartlar" | "kullanim">("aciklama");
   const [loading, setLoading] = useState(true);
 
+
+
+
+
   useEffect(() => {
+
+     window.scrollTo(0, 0);
     const supabase = createClient();
     supabase.from("categories").select("*").eq("slug", kategori).single()
       .then(({ data: catData }) => {
