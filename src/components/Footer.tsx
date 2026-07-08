@@ -19,7 +19,7 @@ export default function Footer() {
               </span>
             </Link>
             <p className="mt-4 text-sm leading-relaxed text-zinc-500">
-              Endüstriyel test cihazları alanında 20+ yıllık deneyimle güvenilir çözümler sunuyoruz.
+              Endüstriyel test cihazları alanında 10+ yıllık deneyimle güvenilir çözümler sunuyoruz.
             </p>
             <div className="mt-6 flex gap-3">
               <a href="https://www.linkedin.com/company/hektapi̇-mühendi̇sli̇k-san-ve-ti̇c-ltd-şti̇/"
