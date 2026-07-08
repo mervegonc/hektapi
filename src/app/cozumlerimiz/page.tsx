@@ -15,7 +15,7 @@ interface Solution {
 }
 
 function getYoutubeId(url: string) {
-  const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\s]+)/);
+  const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/)([^&?\s]+)/);
   return match ? match[1] : null;
 }
 
