@@ -271,7 +271,7 @@ export default function Header() {
               { href: "/urunler", label: "Tüm Ürünler" },
               { href: "/hizmetlerimiz", label: "Hizmetlerimiz" },
               { href: "/cozumlerimiz", label: "Çözümlerimiz" },
-              { href: "/sertifikalar", label: "Sertifikalar" },
+              { href: "/standartlar", label: "Sertifikalar" },
               { href: "/iletisim", label: "İletişim" },
             ].map(({ href, label }) => (
               <Link key={href} href={href}
