@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "@/lib/sentry";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { SiteProvider } from "@/context/SiteContext";
