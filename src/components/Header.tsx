@@ -2,9 +2,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
-import { usePathname, useRouter } from "next/navigation";
-import { useSite } from "@/context/SiteContext";
+import { usePathname } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import type { Category } from "@/types";
 
 interface Product {
   id: string;
@@ -14,8 +14,7 @@ interface Product {
   image_url: string | null;
 }
 
-export default function Header() {
-  const { categories } = useSite();
+export default function Header({ categories }: { categories: Category[] }) {
   const [productsOpen, setProductsOpen] = useState(false);
   const [kurumOpen, setKurumOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -26,7 +25,6 @@ export default function Header() {
   const [searching, setSearching] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
   const pathname = usePathname();
-  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
