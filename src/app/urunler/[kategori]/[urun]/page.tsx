@@ -21,8 +21,9 @@ export default function UrunDetayPage() {
 
 
   useEffect(() => {
-
-     window.scrollTo(0, 0);
+    if (typeof window !== "undefined") {
+      window.scrollTo(0, 0);
+    }
     const supabase = createClient();
     supabase.from("categories").select("*").eq("slug", kategori).single()
       .then(({ data: catData }) => {
@@ -44,15 +45,19 @@ export default function UrunDetayPage() {
       <div className="h-8 w-8 animate-spin rounded-full border-2 border-accent border-t-transparent" />
     </div>
   );
-  if (!cat || !product) return notFound();
+  if (!loading && (!cat || !product)) return notFound();
+  if (!cat || !product) return null;
 
   const allImages = [product.image_url, ...(product.images || [])].filter(Boolean) as string[];
+  const specs = product.specs || [];
+  const highlights = product.highlights || [];
+  const useCases = product.use_cases || [];
 
   const tabs = [
     { key: "aciklama", label: "Açıklama", show: !!product.description },
-    { key: "specs", label: "Teknik Özellikler", show: product.specs?.length > 0 },
+    { key: "specs", label: "Teknik Özellikler", show: specs.length > 0 },
     { key: "standartlar", label: "Standartlar", show: !!product.standards },
-    { key: "kullanim", label: "Kullanım Alanları", show: product.use_cases?.length > 0 },
+    { key: "kullanim", label: "Kullanım Alanları", show: useCases.length > 0 },
   ].filter(t => t.show);
 
   return (
@@ -93,11 +98,11 @@ export default function UrunDetayPage() {
             <h1 className="text-2xl font-black text-navy-950 sm:text-3xl leading-tight">{product.name}</h1>
             <div className="mt-6"><QuoteButton productName={product.name} /></div>
 
-            {product.highlights?.length > 0 && (
+            {highlights.length > 0 && (
               <div className="mt-8 rounded-2xl bg-navy-950 p-5">
                 <p className="mb-3 text-xs font-bold uppercase tracking-widest text-accent">Öne Çıkan Özellikler</p>
                 <ul className="space-y-2">
-                  {product.highlights.map((h: string) => (
+                  {highlights.map((h: string) => (
                     <li key={h} className="flex gap-2 text-sm text-zinc-300">
                       <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
                       <span>{h}</span>
@@ -119,13 +124,13 @@ export default function UrunDetayPage() {
                 </div>
                 <div className="mt-4">
                   {activeTab === "aciklama" && product.description && (
-                    <div className="prose text-sm text-zinc-600" dangerouslySetInnerHTML={{ __html: product.description }} />
+                    <div className="prose prose-sm max-w-none text-zinc-600 overflow-hidden" dangerouslySetInnerHTML={{ __html: product.description }} />
                   )}
-                  {activeTab === "specs" && product.specs?.length > 0 && (
+                  {activeTab === "specs" && specs.length > 0 && (
                     <div className="overflow-hidden rounded-xl border border-gray-100">
                       <table className="w-full text-sm">
                         <tbody>
-                          {product.specs.map((spec: ProductSpec, i: number) => (
+                          {specs.map((spec: ProductSpec, i: number) => (
                             <tr key={spec.label} className={i % 2 === 0 ? "bg-gray-50" : "bg-white"}>
                               <td className="w-2/5 border-b border-gray-100 px-4 py-3 font-semibold text-navy-950">{spec.label}</td>
                               <td className="border-b border-gray-100 px-4 py-3 text-zinc-600">{spec.value}</td>
@@ -145,9 +150,9 @@ export default function UrunDetayPage() {
                       ))}
                     </div>
                   )}
-                  {activeTab === "kullanim" && product.use_cases?.length > 0 && (
+                  {activeTab === "kullanim" && useCases.length > 0 && (
                     <div className="flex flex-wrap gap-2">
-                      {product.use_cases.map((u: string) => (
+                      {useCases.map((u: string) => (
                         <span key={u} className="rounded-full border border-gray-200 bg-white px-4 py-2 text-xs font-medium text-zinc-700 shadow-sm">{u}</span>
                       ))}
                     </div>

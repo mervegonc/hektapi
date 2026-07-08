@@ -28,7 +28,8 @@ export default function KategoriPage() {
       <div className="h-8 w-8 animate-spin rounded-full border-2 border-accent border-t-transparent" />
     </div>
   );
-  if (!cat) return notFound();
+  if (!loading && !cat) return notFound();
+  if (!cat) return null;
 
   return (
     <div>
