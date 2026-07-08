@@ -7,10 +7,11 @@ import { SiteProvider } from "@/context/SiteContext";
 export const metadata: Metadata = {
   title: "Hektapi | Endüstriyel Test Cihazları",
   description: "Hektapi ile en son test makinalarını ve teknik ürünleri keşfedin.",
-  icons: {
-    icon: "/logo.png",
-    apple: "/logo.png",
-  },
+icons: {
+  icon: "/logo.png",
+  apple: "/logo.png",
+  shortcut: "/logo.png",
+},
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
