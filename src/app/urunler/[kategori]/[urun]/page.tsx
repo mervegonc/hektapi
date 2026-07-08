@@ -1,64 +1,41 @@
-"use client";
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { notFound, useParams } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
+import { notFound } from "next/navigation";
+import { createClient } from "@/lib/supabase/server";
 import type { Category, Product, ProductSpec } from "@/types";
 import QuoteButton from "@/components/QuoteButton";
 
-export default function UrunDetayPage() {
-  const { kategori, urun } = useParams<{ kategori: string; urun: string }>();
-  const [cat, setCat] = useState<Category | null>(null);
-  const [product, setProduct] = useState<Product | null>(null);
-  const [related, setRelated] = useState<Product[]>([]);
-  const [activeImg, setActiveImg] = useState(0);
-  const [activeTab, setActiveTab] = useState<"aciklama" | "specs" | "standartlar" | "kullanim">("aciklama");
-  const [loading, setLoading] = useState(true);
+export default async function UrunDetayPage({
+  params,
+}: {
+  params: Promise<{ kategori: string; urun: string }>;
+}) {
+  const { kategori, urun } = await params;
+  const supabase = await createClient();
 
+  const [{ data: catData }, { data: prodData }] = await Promise.all([
+    supabase.from("categories").select("*").eq("slug", kategori).single(),
+    supabase.from("products").select("*").eq("slug", urun).single(),
+  ]);
 
+  if (!catData || !prodData) return notFound();
 
+  const cat: Category = catData;
+  const product: Product = prodData;
 
+  const { data: relatedData } = await supabase
+    .from("products")
+    .select("id, name, slug, image_url")
+    .contains("category_ids", [cat.id])
+    .eq("is_active", true)
+    .neq("id", product.id)
+    .limit(4);
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      window.scrollTo(0, 0);
-    }
-    const supabase = createClient();
-    supabase.from("categories").select("*").eq("slug", kategori).single()
-      .then(({ data: catData }) => {
-        if (!catData) { setLoading(false); return; }
-        setCat(catData);
-        supabase.from("products").select("*").eq("slug", urun).single()
-          .then(({ data: prodData }) => {
-            if (!prodData) { setLoading(false); return; }
-            setProduct(prodData);
-            supabase.from("products").select("*").contains("category_ids", [catData.id])
-              .eq("is_active", true).neq("id", prodData.id).limit(4)
-              .then(({ data }) => { setRelated(data || []); setLoading(false); });
-          });
-      });
-  }, [kategori, urun]);
-
-  if (loading) return (
-    <div className="flex h-64 items-center justify-center bg-white">
-      <div className="h-8 w-8 animate-spin rounded-full border-2 border-accent border-t-transparent" />
-    </div>
-  );
-  if (!loading && (!cat || !product)) return notFound();
-  if (!cat || !product) return null;
-
+  const related = relatedData || [];
   const allImages = [product.image_url, ...(product.images || [])].filter(Boolean) as string[];
-  const specs = product.specs || [];
-  const highlights = product.highlights || [];
-  const useCases = product.use_cases || [];
-
-  const tabs = [
-    { key: "aciklama", label: "Açıklama", show: !!product.description },
-    { key: "specs", label: "Teknik Özellikler", show: specs.length > 0 },
-    { key: "standartlar", label: "Standartlar", show: !!product.standards },
-    { key: "kullanim", label: "Kullanım Alanları", show: useCases.length > 0 },
-  ].filter(t => t.show);
+  const specs: ProductSpec[] = product.specs || [];
+  const highlights: string[] = product.highlights || [];
+  const useCases: string[] = product.use_cases || [];
 
   return (
     <div className="bg-white">
@@ -76,24 +53,26 @@ export default function UrunDetayPage() {
 
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
+          {/* Resimler */}
           <div className="space-y-4">
             <div className="relative overflow-hidden rounded-2xl bg-gray-50 border border-gray-100" style={{ aspectRatio: "1/1" }}>
               {allImages.length > 0
-                ? <Image src={allImages[activeImg]} alt={product.name} fill className="object-contain p-8" sizes="(max-width: 1024px) 100vw, 50vw" priority />
+                ? <Image src={allImages[0]} alt={product.name} fill className="object-contain p-8"
+                    sizes="(max-width: 1024px) 100vw, 50vw" priority />
                 : <div className="flex h-full items-center justify-center"><span className="text-8xl opacity-10">⚗️</span></div>}
             </div>
             {allImages.length > 1 && (
               <div className="flex gap-2 overflow-x-auto pb-1">
-                {allImages.map((img, i) => (
-                  <button key={img} onClick={() => setActiveImg(i)}
-                    className={`relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border-2 transition-all ${i === activeImg ? "border-accent shadow-md shadow-accent/20" : "border-gray-200 hover:border-gray-300"}`}>
-                    <Image src={img} alt="" fill className="object-contain bg-white p-1" sizes="64px" />
-                  </button>
+                {allImages.slice(1).map((img) => (
+                  <div key={img} className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border-2 border-gray-200">
+                    <Image src={img} alt="" fill className="object-contain bg-white p-1" sizes="64px" loading="lazy" />
+                  </div>
                 ))}
               </div>
             )}
           </div>
 
+          {/* Bilgiler */}
           <div>
             <h1 className="text-2xl font-black text-navy-950 sm:text-3xl leading-tight">{product.name}</h1>
             <div className="mt-6"><QuoteButton productName={product.name} /></div>
@@ -112,54 +91,13 @@ export default function UrunDetayPage() {
               </div>
             )}
 
-            {tabs.length > 0 && (
-              <div className="mt-6">
-                <div className="flex gap-1 rounded-xl bg-gray-100 p-1 overflow-x-auto">
-                  {tabs.map((tab) => (
-                    <button key={tab.key} onClick={() => setActiveTab(tab.key as typeof activeTab)}
-                      className={`flex-1 rounded-lg px-3 py-2 text-xs font-bold transition-all whitespace-nowrap ${activeTab === tab.key ? "bg-white text-navy-950 shadow-sm" : "text-zinc-500 hover:text-zinc-700"}`}>
-                      {tab.label}
-                    </button>
-                  ))}
-                </div>
-                <div className="mt-4">
-                  {activeTab === "aciklama" && product.description && (
-                    <div className="prose prose-sm max-w-none text-zinc-600 overflow-hidden" dangerouslySetInnerHTML={{ __html: product.description }} />
-                  )}
-                  {activeTab === "specs" && specs.length > 0 && (
-                    <div className="overflow-hidden rounded-xl border border-gray-100">
-                      <table className="w-full text-sm">
-                        <tbody>
-                          {specs.map((spec: ProductSpec, i: number) => (
-                            <tr key={spec.label} className={i % 2 === 0 ? "bg-gray-50" : "bg-white"}>
-                              <td className="w-2/5 border-b border-gray-100 px-4 py-3 font-semibold text-navy-950">{spec.label}</td>
-                              <td className="border-b border-gray-100 px-4 py-3 text-zinc-600">{spec.value}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  )}
-                  {activeTab === "standartlar" && product.standards && (
-                    <div className="space-y-2">
-                      {product.standards.split(";").map((s: string) => s.trim()).filter(Boolean).map((std: string) => (
-                        <div key={std} className="flex items-center gap-3 rounded-xl border border-gray-100 bg-gray-50 px-4 py-3">
-                          <span className="h-2 w-2 rounded-full bg-accent shrink-0" />
-                          <span className="text-sm font-medium text-navy-950">{std}</span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  {activeTab === "kullanim" && useCases.length > 0 && (
-                    <div className="flex flex-wrap gap-2">
-                      {useCases.map((u: string) => (
-                        <span key={u} className="rounded-full border border-gray-200 bg-white px-4 py-2 text-xs font-medium text-zinc-700 shadow-sm">{u}</span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
+            {/* Tabs — client component olarak ayrı tutuyoruz */}
+            <ProductTabs
+              description={product.description}
+              specs={specs}
+              standards={product.standards}
+              useCases={useCases}
+            />
           </div>
         </div>
 
@@ -172,14 +110,14 @@ export default function UrunDetayPage() {
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
               {related.map((r) => (
                 <Link key={r.id} href={`/urunler/${cat.slug}/${r.slug}`}
-                  className="premium-card group overflow-hidden rounded-2xl bg-white shadow-sm border border-gray-100">
+                  className="group overflow-hidden rounded-2xl bg-white shadow-sm border border-gray-100">
                   <div className="relative flex aspect-square items-center justify-center overflow-hidden bg-gray-50">
                     {r.image_url
-                      ? <Image src={r.image_url} alt={r.name} fill className="object-contain p-3 transition-transform duration-500 group-hover:scale-105" sizes="200px" />
+                      ? <Image src={r.image_url} alt={r.name} fill className="object-contain p-3" sizes="200px" loading="lazy" />
                       : <span className="text-3xl opacity-20">⚗️</span>}
                   </div>
                   <div className="border-t border-gray-100 p-3">
-                    <h3 className="text-xs font-bold text-navy-950 group-hover:text-accent transition-colors line-clamp-2">{r.name}</h3>
+                    <h3 className="text-xs font-bold text-navy-950 line-clamp-2">{r.name}</h3>
                   </div>
                 </Link>
               ))}
@@ -190,3 +128,6 @@ export default function UrunDetayPage() {
     </div>
   );
 }
+
+// Tab içeriği için inline client component
+import ProductTabs from "@/components/ProductTabs";
