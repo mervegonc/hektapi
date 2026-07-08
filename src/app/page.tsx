@@ -6,16 +6,17 @@ import type { Category } from "@/types";
 
 export default async function HomePage() {
   const supabase = await createClient();
-  const { data: categories } = await supabase
-    .from("categories")
-    .select("*")
-    .order("order");
+  const [{ data: categories }, { data: slidesData }] = await Promise.all([
+    supabase.from("categories").select("*").order("order"),
+    supabase.from("hero_slides").select("*").eq("is_active", true).order("order"),
+  ]);
 
   const cats: Category[] = categories || [];
+  const slides = slidesData || [];
 
   return (
     <div>
-      <HeroSlider />
+      <HeroSlider slides={slides} />
 
       {/* Stats bar */}
       <section className="bg-navy-950 border-b border-navy-800">
