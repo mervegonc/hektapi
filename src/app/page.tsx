@@ -48,14 +48,15 @@ export default async function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {cats.map((cat) => (
+            {cats.map((cat, i) => (
               <Link key={cat.id} href={`/urunler/${cat.slug}`}
                 className="premium-card group relative overflow-hidden rounded-2xl bg-white shadow-md border border-gray-100">
                 <div className="relative h-56 overflow-hidden">
                   {cat.image_url
                     ? <Image src={cat.image_url} alt={cat.name} fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" />
+                        className="object-cover"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                        loading={i < 2 ? "eager" : "lazy"} />
                     : (
                       <div className="flex h-full items-center justify-center bg-gradient-to-br from-navy-900 to-navy-800">
                         <span className="text-6xl opacity-20">⚗️</span>
