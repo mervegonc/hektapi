@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useSite } from "@/context/SiteContext";
-
+import HeroSlider from "@/components/HeroSlider";
 
 export default function HomePage() {
   const { categories } = useSite();
@@ -12,7 +12,7 @@ export default function HomePage() {
   
   return (
     <div>
-      
+      <HeroSlider />
 
       {/* Stats bar */}
       <section className="bg-navy-950 border-b border-navy-800">
