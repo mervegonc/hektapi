@@ -4,14 +4,19 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { SiteProvider } from "@/context/SiteContext";
 
+
 export const metadata: Metadata = {
   title: "Hektapi | Endüstriyel Test Cihazları",
   description: "Hektapi ile en son test makinalarını ve teknik ürünleri keşfedin.",
-icons: {
-  icon: "/favicon.png",
-  apple: "/favicon.png",
-},
+  verification: {
+    google: "cHy-diB7S5zChNy9EUwD8XTTHEoP3gFRTc5mpnnra1Y",
+  },
+  icons: {
+    icon: "/favicon.png",
+    apple: "/favicon.png",
+  },
 };
+
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
