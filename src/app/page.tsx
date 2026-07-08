@@ -1,15 +1,18 @@
-"use client";
-
 import Link from "next/link";
 import Image from "next/image";
-import { useSite } from "@/context/SiteContext";
+import { createClient } from "@/lib/supabase/server";
 import HeroSlider from "@/components/HeroSlider";
+import type { Category } from "@/types";
 
-export default function HomePage() {
-  const { categories } = useSite();
+export default async function HomePage() {
+  const supabase = await createClient();
+  const { data: categories } = await supabase
+    .from("categories")
+    .select("*")
+    .order("order");
 
+  const cats: Category[] = categories || [];
 
-  
   return (
     <div>
       <HeroSlider />
@@ -21,7 +24,7 @@ export default function HomePage() {
             {[
               { value: "10+", label: "Yıllık Deneyim" },
               { value: "50+", label: "Tamamlanan Proje" },
-              { value: `${categories.length}`, label: "Ürün Kategorisi" },
+              { value: `${cats.length}`, label: "Ürün Kategorisi" },
               { value: "100%", label: "Müşteri Memnuniyeti" },
             ].map((stat) => (
               <div key={stat.label} className="px-6 py-5 text-center">
@@ -44,7 +47,7 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {categories.map((cat) => (
+            {cats.map((cat) => (
               <Link key={cat.id} href={`/urunler/${cat.slug}`}
                 className="premium-card group relative overflow-hidden rounded-2xl bg-white shadow-md border border-gray-100">
                 <div className="relative h-56 overflow-hidden">
@@ -63,11 +66,6 @@ export default function HomePage() {
                     {cat.description && (
                       <p className="mt-1 line-clamp-1 text-xs text-zinc-300">{cat.description}</p>
                     )}
-                  </div>
-                  <div className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
-                      <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
                   </div>
                 </div>
               </Link>
@@ -94,23 +92,23 @@ export default function HomePage() {
             <h2 className="text-3xl font-black text-navy-950 sm:text-4xl">Neden Hektapi?</h2>
             <div className="section-divider mx-auto mt-4" />
           </div>
-<div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-  {[
-    { num: "01", title: "Yüksek Hassasiyet", desc: "Tüm ürünlerimiz uluslararası standartlara uygun olarak tasarlanmış ve hassas ölçüm sonuçları için optimize edilmiştir." },
-    { num: "02", title: "Sektör Deneyimi", desc: "20 yılı aşkın deneyimimizle endüstriyel test cihazları alanında güvenilir çözümler sunuyoruz." },
-    { num: "03", title: "Teknik Destek", desc: "Satış sonrası teknik destek ve bakım hizmetlerimizle yanınızdayız. Uzman ekibimiz her zaman erişilebilir." },
-    { num: "04", title: "Uluslararası Standartlar", desc: "TS, EN, ASTM, BS ve ISO standartlarına tam uyumluluk. Her ürün sertifikalı ve onaylı." },
-    { num: "05", title: "Hızlı Teslimat", desc: "Stok yönetimimiz ve lojistik ağımız sayesinde en kısa sürede teslimat sağlıyoruz." },
-    { num: "06", title: "Ar-Ge Odaklı", desc: "Sürekli Ar-Ge yatırımlarımızla teknolojinin ön saflarında yer alıyor, yenilikçi çözümler geliştiriyoruz." },
-  ].map((item) => (
-    <div key={item.num}
-      className="group rounded-2xl border border-gray-100 bg-gray-50 p-6 transition-all duration-300 hover:border-accent/30 hover:bg-white hover:shadow-lg">
-      <p className="mb-3 text-4xl font-black text-navy-950/10 group-hover:text-accent/20 transition-colors">{item.num}</p>
-      <h3 className="mb-2 font-bold text-navy-950">{item.title}</h3>
-      <p className="text-sm leading-relaxed text-zinc-500">{item.desc}</p>
-    </div>
-  ))}
-</div>
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              { num: "01", title: "Yüksek Hassasiyet", desc: "Tüm ürünlerimiz uluslararası standartlara uygun olarak tasarlanmış ve hassas ölçüm sonuçları için optimize edilmiştir." },
+              { num: "02", title: "Sektör Deneyimi", desc: "20 yılı aşkın deneyimimizle endüstriyel test cihazları alanında güvenilir çözümler sunuyoruz." },
+              { num: "03", title: "Teknik Destek", desc: "Satış sonrası teknik destek ve bakım hizmetlerimizle yanınızdayız. Uzman ekibimiz her zaman erişilebilir." },
+              { num: "04", title: "Uluslararası Standartlar", desc: "TS, EN, ASTM, BS ve ISO standartlarına tam uyumluluk. Her ürün sertifikalı ve onaylı." },
+              { num: "05", title: "Hızlı Teslimat", desc: "Stok yönetimimiz ve lojistik ağımız sayesinde en kısa sürede teslimat sağlıyoruz." },
+              { num: "06", title: "Ar-Ge Odaklı", desc: "Sürekli Ar-Ge yatırımlarımızla teknolojinin ön saflarında yer alıyor, yenilikçi çözümler geliştiriyoruz." },
+            ].map((item) => (
+              <div key={item.num}
+                className="group rounded-2xl border border-gray-100 bg-gray-50 p-6 transition-all duration-300 hover:border-accent/30 hover:bg-white hover:shadow-lg">
+                <p className="mb-3 text-4xl font-black text-navy-950/10 group-hover:text-accent/20 transition-colors">{item.num}</p>
+                <h3 className="mb-2 font-bold text-navy-950">{item.title}</h3>
+                <p className="text-sm leading-relaxed text-zinc-500">{item.desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -123,7 +121,7 @@ export default function HomePage() {
             <div className="section-divider mx-auto mt-4" />
           </div>
           <div className="grid gap-6 md:grid-cols-2">
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm">
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-8">
               <div className="mb-4 flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent/20">
                   <span className="text-accent text-lg">👁</span>

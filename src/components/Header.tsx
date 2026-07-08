@@ -80,7 +80,7 @@ export default function Header() {
 
   return (
     <header className={`sticky top-0 z-50 transition-all duration-300 ${
-      scrolled ? "bg-navy-950/95 backdrop-blur-md shadow-lg shadow-black/20" : "bg-navy-950"
+      scrolled ? "bg-navy-950/95 shadow-lg shadow-black/20" : "bg-navy-950"
     }`}>
       <div className="mx-auto flex max-w-7xl items-center px-4 py-2 sm:px-6 lg:px-8 gap-1">
 
