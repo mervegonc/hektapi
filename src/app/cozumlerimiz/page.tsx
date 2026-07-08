@@ -1,7 +1,5 @@
-"use client";
-import { useEffect, useState } from "react";
 import Image from "next/image";
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from "@/lib/supabase/server";
 
 interface Solution {
   id: string;
@@ -19,25 +17,13 @@ function getYoutubeId(url: string) {
   return match ? match[1] : null;
 }
 
-export default function CozumlerimizPage() {
-  const [solutions, setSolutions] = useState<Solution[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    createClient().from("solutions").select("*").eq("is_active", true).order("order")
-      .then(({ data }) => { setSolutions(data || []); setLoading(false); });
-  }, []);
-
-  if (loading) return (
-    <div className="flex h-64 items-center justify-center bg-white">
-      <div className="h-8 w-8 animate-spin rounded-full border-2 border-accent border-t-transparent" />
-    </div>
-  );
+export default async function CozumlerimizPage() {
+  const supabase = await createClient();
+  const { data } = await supabase.from("solutions").select("*").eq("is_active", true).order("order");
+  const solutions: Solution[] = data || [];
 
   return (
     <div className="bg-white">
-
-
       <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8 space-y-20">
         {solutions.length === 0 ? (
           <p className="text-center text-zinc-500">Henüz çözüm eklenmemiş.</p>
@@ -51,7 +37,7 @@ export default function CozumlerimizPage() {
               </div>
               {s.media_type === "image" && s.media_url && (
                 <div className="relative overflow-hidden rounded-2xl aspect-video">
-                  <Image src={s.media_url} alt={s.title} fill className="object-cover" sizes="600px" />
+                  <Image src={s.media_url} alt={s.title} fill className="object-cover" sizes="600px" loading="lazy" />
                 </div>
               )}
               {s.media_type === "youtube" && s.youtube_url && getYoutubeId(s.youtube_url) && (

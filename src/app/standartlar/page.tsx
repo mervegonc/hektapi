@@ -1,6 +1,4 @@
-"use client";
-import { useEffect, useState } from "react";
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from "@/lib/supabase/server";
 
 interface Standard {
   id: string;
@@ -19,31 +17,13 @@ const CATEGORY_COLORS: Record<string, string> = {
   "DIN": "bg-red-100 text-red-800",
 };
 
-export default function StandartlarPage() {
-  const [standards, setStandards] = useState<Standard[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    createClient()
-      .from("standards")
-      .select("*")
-      .eq("is_active", true)
-      .order("order")
-      .then(({ data }) => { setStandards(data || []); setLoading(false); });
-  }, []);
-
-  if (loading) return (
-    <div className="flex h-64 items-center justify-center">
-      <div className="h-8 w-8 animate-spin rounded-full border-2 border-accent border-t-transparent" />
-    </div>
-  );
+export default async function StandartlarPage() {
+  const supabase = await createClient();
+  const { data } = await supabase.from("standards").select("*").eq("is_active", true).order("order");
+  const standards: Standard[] = data || [];
 
   return (
     <div>
-      {/* Hero */}
-
-
-      {/* Standart kartları */}
       <section className="bg-gray-50 px-4 py-16 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           {standards.length === 0 ? (
@@ -55,8 +35,7 @@ export default function StandartlarPage() {
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {standards.map((std) => (
                 <div key={std.id}
-                  className="group flex flex-col rounded-2xl bg-white shadow-sm border border-gray-100 overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-                  {/* Üst kısım - ikon ve kategori */}
+                  className="flex flex-col rounded-2xl bg-white shadow-sm border border-gray-100 overflow-hidden">
                   <div className="bg-gradient-to-br from-navy-950 to-navy-800 p-6 flex flex-col items-center justify-center text-center">
                     <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10 text-3xl">
                       📄
@@ -67,14 +46,11 @@ export default function StandartlarPage() {
                       </span>
                     )}
                   </div>
-
-                  {/* Alt kısım - içerik */}
                   <div className="flex flex-1 flex-col p-5">
                     <h3 className="font-black text-navy-950 text-sm leading-tight">{std.title}</h3>
                     {std.description && (
                       <p className="mt-2 text-xs text-zinc-500 leading-relaxed flex-1">{std.description}</p>
                     )}
-
                     {std.pdf_url && (
                       <div className="mt-4 flex gap-2">
                         <a href={std.pdf_url} target="_blank" rel="noreferrer"
