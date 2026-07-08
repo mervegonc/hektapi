@@ -52,7 +52,7 @@ export default function Footer() {
                 ["/kurumsal/vizyon-misyon", "Vizyon & Misyon"],
                 ["/hizmetlerimiz", "Hizmetlerimiz"],
                 ["/cozumlerimiz", "Çözümlerimiz"],
-                ["/sertifikalar", "Sertifikalar"],
+                ["/standartlar", "Sertifikalar"],
                 ["/iletisim", "İletişim"],
               ].map(([href, label]) => (
                 <li key={href}>
