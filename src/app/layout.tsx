@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import "@/lib/sentry";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import SentryInit from "@/components/SentryInit";
 import { SiteProvider } from "@/context/SiteContext";
 
 
@@ -24,6 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="tr" className="h-full">
       <body className="flex min-h-full flex-col bg-navy-950">
         <SiteProvider>
+          <SentryInit />
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />
