@@ -101,14 +101,23 @@ export default function HeroSlider() {
 
   return (
     <section className="relative w-full overflow-hidden" style={{ height: "560px" }}>
-      {slides.map((s, i) => (
-        <div key={s.id}
-          className={`absolute inset-0 transition-opacity duration-700 ${i === safeIndex ? "opacity-100" : "opacity-0"}`}>
-          <Image src={s.image_url} alt={s.title || "Slayt"} fill
-            className="object-cover" sizes="100vw" priority={i === 0} />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
-        </div>
-      ))}
+      {slides.map((s, i) => {
+        // Sadece aktif, bir önceki ve bir sonraki slide'ı yükle
+        const isActive = i === safeIndex;
+        const isPrev = i === (safeIndex - 1 + slides.length) % slides.length;
+        const isNext = i === (safeIndex + 1) % slides.length;
+        const shouldLoad = isActive || isPrev || isNext;
+        return (
+          <div key={s.id}
+            className={`absolute inset-0 transition-opacity duration-700 ${isActive ? "opacity-100" : "opacity-0"}`}>
+            {shouldLoad && (
+              <Image src={s.image_url} alt={s.title || "Slayt"} fill
+                className="object-cover" sizes="100vw" priority={i === 0} />
+            )}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
+          </div>
+        );
+      })}
 
       <div className="relative z-10 flex h-full items-center px-8 sm:px-16 lg:px-24">
         <div className="max-w-xl text-white">

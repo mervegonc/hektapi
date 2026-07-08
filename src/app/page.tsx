@@ -116,10 +116,6 @@ export default function HomePage() {
 
       {/* Vizyon/Misyon */}
       <section className="relative overflow-hidden bg-navy-950 px-4 py-20 sm:px-6 lg:px-8">
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute -left-20 -top-20 h-96 w-96 rounded-full bg-accent blur-3xl" />
-          <div className="absolute -bottom-20 -right-20 h-96 w-96 rounded-full bg-accent blur-3xl" />
-        </div>
         <div className="relative mx-auto max-w-6xl">
           <div className="mb-12 text-center">
             <p className="mb-3 text-xs font-bold uppercase tracking-widest text-accent">Biz Kimiz</p>
