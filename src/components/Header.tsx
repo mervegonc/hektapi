@@ -154,9 +154,9 @@ export default function Header({ categories }: { categories: Category[] }) {
             {isActive("/cozumlerimiz") && activeLine}
           </Link>
 
-          <Link href="/standartlar" className={linkClass(isActive("/standartlar"))}>
+          <Link href="/sertifikalar" className={linkClass(isActive("/sertifikalar"))}>
             Sertifikalar
-            {isActive("/standartlar") && activeLine}
+            {isActive("/sertifikalar") && activeLine}
           </Link>
 
           <button onClick={() => setSearchOpen(true)}
@@ -251,7 +251,7 @@ export default function Header({ categories }: { categories: Category[] }) {
               { href: "/urunler", label: "Tüm Ürünler" },
               { href: "/hizmetlerimiz", label: "Hizmetlerimiz" },
               { href: "/cozumlerimiz", label: "Çözümlerimiz" },
-              { href: "/standartlar", label: "Sertifikalar" },
+              { href: "/sertifikalar", label: "Sertifikalar" },
               { href: "/iletisim", label: "İletişim" },
             ].map(({ href, label }) => (
               <Link key={href} href={href}

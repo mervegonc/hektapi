@@ -1,3 +1,11 @@
+import { pageMetadata } from "@/lib/seo";
+
+export const metadata = pageMetadata({
+  title: "Hakkımızda",
+  description: "Hektapi hakkında bilgi edinin. Endüstriyel test cihazları alanında mühendislik ve Ar-Ge odaklı hizmetler.",
+  path: "/kurumsal/hakkimizda",
+});
+
 export default function HakkimizdaPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">

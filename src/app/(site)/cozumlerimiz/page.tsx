@@ -1,5 +1,12 @@
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
+import { pageMetadata } from "@/lib/seo";
+
+export const metadata = pageMetadata({
+  title: "Çözümlerimiz",
+  description: "Endüstriyel test ve kalite kontrol süreçleri için Hektapi çözümlerini keşfedin.",
+  path: "/cozumlerimiz",
+});
 
 interface Solution {
   id: string;

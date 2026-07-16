@@ -1,8 +1,34 @@
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import type { Category, Product } from "@/types";
+import { pageMetadata } from "@/lib/seo";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ kategori: string }>;
+}): Promise<Metadata> {
+  const { kategori } = await params;
+  const supabase = await createClient();
+  const { data } = await supabase.from("categories").select("name, description").eq("slug", kategori).single();
+
+  if (!data) {
+    return pageMetadata({
+      title: "Kategori",
+      description: "Hektapi ürün kategorisi.",
+      path: `/urunler/${kategori}`,
+    });
+  }
+
+  return pageMetadata({
+    title: data.name,
+    description: data.description || `${data.name} test ekipmanları ve cihazları.`,
+    path: `/urunler/${kategori}`,
+  });
+}
 
 export default async function KategoriPage({
   params,

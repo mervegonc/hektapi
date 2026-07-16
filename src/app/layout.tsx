@@ -1,15 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { defaultMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Hektapi | Endüstriyel Test Cihazları",
-  description: "Hektapi ile en son test makinalarını ve teknik ürünleri keşfedin.",
+  ...defaultMetadata,
   verification: {
     google: "cHy-diB7S5zChNy9EUwD8XTTHEoP3gFRTc5mpnnra1Y",
-  },
-  icons: {
-    icon: "/favicon.png",
-    apple: "/favicon.png",
   },
 };
 

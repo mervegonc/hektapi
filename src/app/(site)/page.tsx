@@ -3,6 +3,13 @@ import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
 import HeroSlider from "@/components/HeroSlider";
 import type { Category } from "@/types";
+import { pageMetadata } from "@/lib/seo";
+
+export const metadata = pageMetadata({
+  title: "Anasayfa",
+  description: "Hektapi ile endüstriyel test cihazlarını, mühendislik çözümlerini ve teknik ürünleri keşfedin.",
+  path: "/",
+});
 
 export default async function HomePage() {
   const supabase = await createClient();

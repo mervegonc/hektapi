@@ -18,6 +18,15 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: "/standartlar",
+        destination: "/sertifikalar",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {

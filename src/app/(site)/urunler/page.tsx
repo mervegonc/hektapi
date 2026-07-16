@@ -2,6 +2,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
 import type { Category } from "@/types";
+import { pageMetadata } from "@/lib/seo";
+
+export const metadata = pageMetadata({
+  title: "Ürünler",
+  description: "Asfalt, beton, çimento, zemin, tekstil ve daha fazlası için endüstriyel test cihazı kategorilerini inceleyin.",
+  path: "/urunler",
+});
 
 export default async function UrunlerPage() {
   const supabase = await createClient();

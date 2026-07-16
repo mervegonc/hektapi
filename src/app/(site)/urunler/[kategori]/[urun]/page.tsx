@@ -1,9 +1,35 @@
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import type { Category, Product, ProductSpec } from "@/types";
 import QuoteButton from "@/components/QuoteButton";
+import { pageMetadata } from "@/lib/seo";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ kategori: string; urun: string }>;
+}): Promise<Metadata> {
+  const { kategori, urun } = await params;
+  const supabase = await createClient();
+  const { data } = await supabase.from("products").select("name, short_description").eq("slug", urun).single();
+
+  if (!data) {
+    return pageMetadata({
+      title: "Ürün",
+      description: "Hektapi endüstriyel test cihazı.",
+      path: `/urunler/${kategori}/${urun}`,
+    });
+  }
+
+  return pageMetadata({
+    title: data.name,
+    description: data.short_description || `${data.name} — Hektapi endüstriyel test cihazı.`,
+    path: `/urunler/${kategori}/${urun}`,
+  });
+}
 
 export default async function UrunDetayPage({
   params,

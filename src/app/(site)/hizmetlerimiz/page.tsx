@@ -1,5 +1,12 @@
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
+import { pageMetadata } from "@/lib/seo";
+
+export const metadata = pageMetadata({
+  title: "Hizmetlerimiz",
+  description: "3D tarama, mühendislik danışmanlığı ve Ar-Ge destekli endüstriyel test hizmetlerimizi inceleyin.",
+  path: "/hizmetlerimiz",
+});
 
 interface Service {
   id: string;

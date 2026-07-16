@@ -1,3 +1,11 @@
+import { pageMetadata } from "@/lib/seo";
+
+export const metadata = pageMetadata({
+  title: "Vizyon & Misyon",
+  description: "Hektapi vizyon ve misyonu. Test cihazları sektöründe yenilikçi ve güvenilir çözümler sunma hedefimiz.",
+  path: "/kurumsal/vizyon-misyon",
+});
+
 export default function VizyonMisyonPage() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">

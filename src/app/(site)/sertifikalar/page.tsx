@@ -1,4 +1,11 @@
 import { createClient } from "@/lib/supabase/server";
+import { pageMetadata } from "@/lib/seo";
+
+export const metadata = pageMetadata({
+  title: "Sertifikalar",
+  description: "ISO, ASTM, TS EN ve diğer uluslararası standart sertifikalarımızı inceleyin.",
+  path: "/sertifikalar",
+});
 
 interface Standard {
   id: string;
@@ -17,7 +24,7 @@ const CATEGORY_COLORS: Record<string, string> = {
   "DIN": "bg-red-100 text-red-800",
 };
 
-export default async function StandartlarPage() {
+export default async function SertifikalarPage() {
   const supabase = await createClient();
   const { data } = await supabase.from("standards").select("*").eq("is_active", true).order("order");
   const standards: Standard[] = data || [];
