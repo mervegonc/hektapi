@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { isAdminEmail } from "@/lib/auth/admin";
 
 export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request });
@@ -33,9 +34,15 @@ export async function middleware(request: NextRequest) {
       url.pathname = "/giris";
       return NextResponse.redirect(url);
     }
+    if (!isAdminEmail(user.email)) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/giris";
+      url.searchParams.set("error", "yetkisiz");
+      return NextResponse.redirect(url);
+    }
   }
 
-  if (request.nextUrl.pathname === "/giris" && user) {
+  if (request.nextUrl.pathname === "/giris" && user && isAdminEmail(user.email)) {
     const url = request.nextUrl.clone();
     url.pathname = "/admin";
     return NextResponse.redirect(url);

@@ -1,10 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import EnableEruda from '../components/EnableEruda';
-import { createClient } from "@/lib/supabase/server";
-import type { Category } from "@/types";
 
 export const metadata: Metadata = {
   title: "Hektapi | Endüstriyel Test Cihazları",
@@ -18,18 +13,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const supabase = await createClient();
-  const { data } = await supabase.from("categories").select("id,name,slug").order("order");
-  const categories: Category[] = (data || []) as Category[];
-
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="tr" className="h-full">
       <body className="flex min-h-full flex-col bg-navy-950">
-    <EnableEruda />
-        <Header categories={categories} />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        {children}
       </body>
     </html>
   );
