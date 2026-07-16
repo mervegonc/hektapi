@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import type { Category } from "@/types";
+import { QUERY_LIMITS } from "@/lib/query-limits";
 
 interface Product {
   id: string;
@@ -47,7 +48,7 @@ export default function Header({ categories }: { categories: Category[] }) {
         .select("id, name, slug, category_ids, image_url")
         .ilike("name", `%${searchQuery}%`)
         .eq("is_active", true)
-        .limit(6);
+        .limit(QUERY_LIMITS.headerSearch);
       setSearchResults(data || []);
       setSearching(false);
     }, 300);

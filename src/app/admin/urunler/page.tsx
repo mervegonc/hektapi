@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
 import type { Product, Category } from "@/types";
+import { QUERY_LIMITS } from "@/lib/query-limits";
 
 export default function AdminUrunlerPage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -14,7 +15,7 @@ export default function AdminUrunlerPage() {
   async function load() {
     const sb = createClient();
     const [{ data: p }, { data: c }] = await Promise.all([
-      sb.from("products").select("*").order("created_at", { ascending: false }),
+      sb.from("products").select("*").order("created_at", { ascending: false }).limit(QUERY_LIMITS.adminProducts),
       sb.from("categories").select("*").order("order"),
     ]);
     setProducts(p || []);

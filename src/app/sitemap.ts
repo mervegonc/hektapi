@@ -1,13 +1,15 @@
 import type { MetadataRoute } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { siteUrl } from "@/lib/seo";
+import { QUERY_LIMITS } from "@/lib/query-limits";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const supabase = await createClient();
   const { data: categories } = await supabase
     .from("categories")
     .select("slug")
-    .order("order");
+    .order("order")
+    .limit(QUERY_LIMITS.sitemapCategories);
 
   const staticPages: MetadataRoute.Sitemap = [
     { url: siteUrl, changeFrequency: "weekly", priority: 1 },

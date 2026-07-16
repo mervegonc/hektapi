@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { QUERY_LIMITS } from "@/lib/query-limits";
 
 interface Inquiry {
   id: string;
@@ -41,7 +42,11 @@ export default function TaleplerPage() {
   const [saving, setSaving] = useState(false);
 
   async function load() {
-    let query = createClient().from("inquiries").select("*").order("created_at", { ascending: false });
+    let query = createClient()
+      .from("inquiries")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(QUERY_LIMITS.adminInquiries);
     if (filterStatus) query = query.eq("status", filterStatus);
     const { data } = await query;
     setInquiries(data || []);

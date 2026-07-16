@@ -1,20 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { escapeHtml, sanitizeText } from "@/lib/sanitize";
-
-const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
-
-function checkRateLimit(ip: string): boolean {
-  const now = Date.now();
-  const limit = rateLimitMap.get(ip);
-  if (!limit || now > limit.resetAt) {
-    rateLimitMap.set(ip, { count: 1, resetAt: now + 60 * 60 * 1000 });
-    return true;
-  }
-  if (limit.count >= 5) return false;
-  limit.count++;
-  return true;
-}
+import { checkRateLimit, getRateLimitConfig } from "@/lib/rate-limit";
 
 async function sendTelegram(message: string) {
   const token = process.env.TELEGRAM_BOT_TOKEN;
@@ -38,7 +25,9 @@ async function sendTelegram(message: string) {
 export async function POST(request: NextRequest) {
   try {
     const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
-    if (!checkRateLimit(ip)) {
+    const { teklifPerHour } = getRateLimitConfig();
+    const rate = checkRateLimit(`teklif:${ip}`, teklifPerHour, 60 * 60 * 1000);
+    if (!rate.allowed) {
       return NextResponse.json({ error: "Çok fazla istek." }, { status: 429 });
     }
 

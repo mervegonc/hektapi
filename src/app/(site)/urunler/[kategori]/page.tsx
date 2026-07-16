@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import type { Category, Product } from "@/types";
+import { QUERY_LIMITS } from "@/lib/query-limits";
 import { pageMetadata } from "@/lib/seo";
 
 export async function generateMetadata({
@@ -52,7 +53,8 @@ export default async function KategoriPage({
     .select("*")
     .contains("category_ids", [cat.id])
     .eq("is_active", true)
-    .order("created_at");
+    .order("created_at")
+    .limit(QUERY_LIMITS.categoryProducts);
 
   const products: Product[] = productsData || [];
 

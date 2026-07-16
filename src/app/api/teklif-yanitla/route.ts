@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { isAdminEmail } from "@/lib/auth/admin";
 import { escapeHtml, sanitizeText, textToHtml } from "@/lib/sanitize";
+import { checkRateLimit, getRateLimitConfig } from "@/lib/rate-limit";
 
 export async function POST(request: NextRequest) {
   try {
@@ -17,6 +18,12 @@ export async function POST(request: NextRequest) {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user || !isAdminEmail(user.email)) {
       return NextResponse.json({ error: "Yetkisiz erişim." }, { status: 401 });
+    }
+
+    const { yanitlaPerHour } = getRateLimitConfig();
+    const rate = checkRateLimit(`yanitla:${user.id}`, yanitlaPerHour, 60 * 60 * 1000);
+    if (!rate.allowed) {
+      return NextResponse.json({ error: "Saatlik mail limitine ulaşıldı." }, { status: 429 });
     }
 
     const { data: inquiry, error: inquiryError } = await supabase
