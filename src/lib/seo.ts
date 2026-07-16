@@ -19,11 +19,13 @@ export const defaultMetadata: Metadata = {
   description: siteConfig.description,
   icons: {
     icon: [
+      { url: "/favicon.ico", sizes: "48x48" },
       { url: "/favicon.png", type: "image/png", sizes: "512x512" },
+      { url: "/favicon-48.png", type: "image/png", sizes: "48x48" },
       { url: "/favicon-32.png", type: "image/png", sizes: "32x32" },
     ],
     apple: [{ url: "/apple-touch-icon.png", type: "image/png", sizes: "180x180" }],
-    shortcut: ["/favicon.png"],
+    shortcut: ["/favicon.ico"],
   },
   openGraph: {
     type: "website",
