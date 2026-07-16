@@ -71,13 +71,13 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
       {/* Sadece aktif slide'ın resmi — tek resim, bellek dostu */}
       <div className="absolute inset-0">
         <Image
-          
           src={slide.image_url}
           alt={slide.title || "Slayt"}
           fill
           className="object-cover"
           sizes="100vw"
-          priority
+          priority={current === 0}
+          quality={70}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
       </div>

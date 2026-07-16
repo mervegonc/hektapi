@@ -73,9 +73,7 @@ export default function Header({ categories }: { categories: Category[] }) {
     <header className="sticky top-0 z-50 bg-navy-950">
       <div className="mx-auto flex max-w-7xl items-center px-4 py-2 sm:px-6 lg:px-8 gap-1">
         <Link href="/" className="flex items-center gap-2.5 group shrink-0 mr-3">
-          <div className="relative h-9 w-9 shrink-0">
-            <Image src="/logo.png" alt="Hektapi" fill className="object-contain" sizes="36px" priority />
-          </div>
+          <Image src="/logo-128.png" alt="Hektapi" width={36} height={36} className="object-contain shrink-0" priority />
           <span className="text-lg font-black tracking-wider text-white">
             HEKTA<span className="text-accent">Pİ</span>
           </span>

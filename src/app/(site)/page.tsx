@@ -63,7 +63,8 @@ export default async function HomePage() {
                     ? <Image src={cat.image_url} alt={cat.name} fill
                         className="object-cover"
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                        loading={i < 2 ? "eager" : "lazy"} />
+                        quality={70}
+                        loading={i === 0 ? "eager" : "lazy"} />
                     : (
                       <div className="flex h-full items-center justify-center bg-gradient-to-br from-navy-900 to-navy-800">
                         <span className="text-6xl opacity-20">⚗️</span>

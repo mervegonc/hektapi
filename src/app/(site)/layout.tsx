@@ -1,6 +1,5 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import EnableEruda from "@/components/EnableEruda";
 import { createClient } from "@/lib/supabase/server";
 import type { Category } from "@/types";
 
@@ -11,7 +10,6 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
 
   return (
     <>
-      <EnableEruda />
       <Header categories={categories} />
       <main className="flex-1">{children}</main>
       <Footer />

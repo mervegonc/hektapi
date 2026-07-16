@@ -11,9 +11,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center gap-2.5">
-              <div className="relative h-10 w-10">
-                <Image src="/logo.png" alt="Hektapi" fill className="object-contain" sizes="40px" />
-              </div>
+              <Image src="/logo-128.png" alt="Hektapi" width={40} height={40} className="object-contain shrink-0" />
               <span className="text-xl font-black text-white">
                 HEKTA<span className="text-accent">Pİ</span>
               </span>
