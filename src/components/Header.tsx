@@ -18,19 +18,12 @@ export default function Header({ categories }: { categories: Category[] }) {
   const [productsOpen, setProductsOpen] = useState(false);
   const [kurumOpen, setKurumOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<Product[]>([]);
   const [searching, setSearching] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
   const pathname = usePathname();
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   useEffect(() => {
     setMobileOpen(false);
@@ -77,12 +70,8 @@ export default function Header({ categories }: { categories: Category[] }) {
   const activeLine = <span className="absolute bottom-0 left-3 right-3 h-0.5 rounded-full bg-accent" />;
 
   return (
-    <header className={`sticky top-0 z-50 transition-all duration-300 ${
-      scrolled ? "bg-navy-950/95 shadow-lg shadow-black/20" : "bg-navy-950"
-    }`}>
+    <header className="sticky top-0 z-50 bg-navy-950">
       <div className="mx-auto flex max-w-7xl items-center px-4 py-2 sm:px-6 lg:px-8 gap-1">
-
-        {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5 group shrink-0 mr-3">
           <div className="relative h-9 w-9 shrink-0">
             <Image src="/logo.png" alt="Hektapi" fill className="object-contain" sizes="36px" priority />
@@ -92,7 +81,6 @@ export default function Header({ categories }: { categories: Category[] }) {
           </span>
         </Link>
 
-        {/* Desktop nav */}
         <nav className="hidden md:flex items-center flex-1 justify-end gap-0.5">
           <Link href="/" className={linkClass(isActive("/"))}>
             Anasayfa
@@ -171,7 +159,6 @@ export default function Header({ categories }: { categories: Category[] }) {
             {isActive("/standartlar") && activeLine}
           </Link>
 
-          {/* Arama ikonu */}
           <button onClick={() => setSearchOpen(true)}
             className="ml-1 flex h-10 w-10 items-center justify-center rounded-lg text-zinc-300 hover:bg-white/10 hover:text-white transition-colors">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -181,12 +168,11 @@ export default function Header({ categories }: { categories: Category[] }) {
           </button>
 
           <Link href="/iletisim"
-            className="ml-1 rounded-full bg-accent h-10 px-5 flex items-center text-sm font-bold text-navy-950 transition-all hover:bg-accent-light hover:shadow-lg hover:shadow-accent/30 whitespace-nowrap">
+            className="ml-1 rounded-full bg-accent h-10 px-5 flex items-center text-sm font-bold text-navy-950 transition-all hover:bg-accent-light whitespace-nowrap">
             İletişim
           </Link>
         </nav>
 
-        {/* Mobile buttons */}
         <div className="md:hidden ml-auto flex items-center gap-2">
           <button onClick={() => setSearchOpen(true)}
             className="rounded-lg p-2 text-white hover:bg-white/10">
@@ -208,7 +194,6 @@ export default function Header({ categories }: { categories: Category[] }) {
 
       <div className="h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
 
-      {/* Arama modalı */}
       {searchOpen && (
         <div className="fixed inset-0 z-50 bg-black/60 p-4 pt-20" onClick={() => setSearchOpen(false)}>
           <div className="mx-auto max-w-2xl" onClick={e => e.stopPropagation()}>
@@ -227,8 +212,6 @@ export default function Header({ categories }: { categories: Category[] }) {
                 </svg>
               </button>
             </div>
-
-            {/* Sonuçlar */}
             {searchQuery && (
               <div className="mt-2 rounded-2xl bg-white overflow-hidden shadow-2xl">
                 {searching ? (
@@ -258,7 +241,6 @@ export default function Header({ categories }: { categories: Category[] }) {
         </div>
       )}
 
-      {/* Mobile menu */}
       {mobileOpen && (
         <div className="border-t border-white/10 bg-navy-950 md:hidden">
           <nav className="px-4 py-4 space-y-1">
