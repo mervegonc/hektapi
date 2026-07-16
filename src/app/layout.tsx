@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-
+import EnableEruda from '../components/EnableEruda';
 import { createClient } from "@/lib/supabase/server";
 import type { Category } from "@/types";
 
@@ -26,7 +26,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="tr" className="h-full">
       <body className="flex min-h-full flex-col bg-navy-950">
-    
+    <EnableEruda />
         <Header categories={categories} />
         <main className="flex-1">{children}</main>
         <Footer />
