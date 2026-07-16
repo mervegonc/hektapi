@@ -71,7 +71,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
       {/* Sadece aktif slide'ın resmi — tek resim, bellek dostu */}
       <div className="absolute inset-0">
         <Image
-          key={slide.id}
+          
           src={slide.image_url}
           alt={slide.title || "Slayt"}
           fill
