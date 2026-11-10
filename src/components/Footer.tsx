@@ -95,10 +95,13 @@ export default function Footer() {
                   <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
                   <circle cx="12" cy="10" r="3"/>
                 </svg>
-                <a href="https://maps.google.com/?q=İvedik+OSB+1470.+Cd.+No:101+Yenimahalle+Ankara"
-  target="_blank" rel="noreferrer"
-  className="text-zinc-500 hover:text-accent transition-colors">
-  İvedik OSB, 1470. Cd. No:101, Yenimahalle / ANKARA
+                <a 
+  href="https://maps.google.com/?q=39.9938857,32.7380006" 
+  target="_blank" 
+  rel="noreferrer"
+  className="text-zinc-500 hover:text-accent transition-colors"
+>
+  İvedik OSB Mah. 1470. Cad. No:101, Yenimahalle / ANKARA
 </a>
               </li>
               <li>
